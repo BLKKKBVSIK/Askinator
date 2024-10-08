@@ -1,5 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
+import 'package:askinator/models/leaderboard_entry.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uuid/uuid.dart';
@@ -55,20 +57,29 @@ class AppwriteService with ListenableServiceMixin {
     );
   }
 
-  Future getLeadderboardData() async {
+  Future<List<LeaderboardEntry>> getLeadderboardData() async {
     if (_client == null || isLogIn == false) {
-      return null;
+      return [];
     }
 
-    final database = Databases(_client!);
+    try {
+      final database = Databases(_client!);
+      final response = await database.listDocuments(
+        databaseId: _leaderboardDatabase,
+        collectionId: _leaderboardCollection,
+        queries: [
+          Query.limit(10),
+          Query.orderDesc('NumberOfQueryAsked'),
+        ],
+      );
 
-    final response = await database.listDocuments(
-      databaseId: _leaderboardDatabase,
-      collectionId: _leaderboardCollection,
-    );
+      List<LeaderboardEntry> leaderboardEntries =
+          response.documents.map((e) => LeaderboardEntry.fromMap(e.data)).toList();
 
-    print(response.documents);
-
-    return response;
+      return leaderboardEntries;
+    } on AppwriteException catch (e) {
+      debugPrint(e.message);
+      return [];
+    }
   }
 }

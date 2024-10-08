@@ -18,12 +18,14 @@ class SplashView extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () async {
-                  await viewModel.testMethod();
+                  await viewModel.goToLeaderboard();
                 },
-                child: Container(
-                  width: 50,
-                  height: 50,
+                child: const ColoredBox(
                   color: Colors.red,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("Go to leaderboard"),
+                  ),
                 ),
               ),
             ],

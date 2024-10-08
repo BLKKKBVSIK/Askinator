@@ -1,3 +1,4 @@
+import 'package:askinator/screens/leaderboard/leaderboard_view.dart';
 import 'package:askinator/screens/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,11 @@ class RouteGenerator {
           settings: settings,
           builder: (context) => const SplashView(),
         );
-
+      case Routes.leaderboardView:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const LeaderboardView(),
+        );
       default:
         return _errorRoute(settings);
     }
@@ -33,4 +38,5 @@ class RouteGenerator {
 class Routes {
   static const String splashView = '/';
   static const String homeView = '/home';
+  static const String leaderboardView = '/leaderboard';
 }
