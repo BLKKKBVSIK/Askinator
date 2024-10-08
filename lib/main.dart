@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       navigatorKey: sl<NavigationService>().navigatorKey,
       title: 'Akinator',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
