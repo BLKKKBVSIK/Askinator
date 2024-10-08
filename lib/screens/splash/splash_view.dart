@@ -17,8 +17,8 @@ class SplashView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: () {
-                  viewModel.testMethod();
+                onTap: () async {
+                  await viewModel.testMethod();
                 },
                 child: Container(
                   width: 50,
