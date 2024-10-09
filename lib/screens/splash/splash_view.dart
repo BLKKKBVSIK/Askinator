@@ -26,6 +26,11 @@ class SplashView extends StatelessWidget {
                   color: Colors.red,
                 ),
               ),
+              const SizedBox(height: 64),
+              FilledButton(
+                onPressed: viewModel.navigateToGameView,
+                child: const Text('Start a game !'),
+              )
             ],
           ),
         ),
