@@ -24,12 +24,12 @@ class AppwriteService with ListenableServiceMixin {
         .setProject(_projectId)
         .setSelfSigned(status: _isDebugEnabled);
 
-    if (_client == null) {
-      return null;
-    }
+    if (_client == null) return null;
 
+    // Throws exception quand la session expire (cad ?) (401)
     _session = await Account(_client!).getSession(sessionId: 'current');
     _session ??= await Account(_client!).createAnonymousSession();
+
     return _session;
   }
 
