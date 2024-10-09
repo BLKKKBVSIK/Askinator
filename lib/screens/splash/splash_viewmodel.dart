@@ -10,8 +10,7 @@ class SplashViewModel extends BaseViewModel {
   bool get isLogIn => _appwriteService.isLogIn;
 
   Future testMethod() async {
-    print(isLogIn);
-    if (!isLogIn) await _appwriteService.signInAnonymously();
+    // if (!isLogIn) await _appwriteService.signInAnonymously();
     await _appwriteService.getLeadderboardData();
   }
 }
