@@ -1,4 +1,4 @@
-package com.example.askinator
+package dev.enzoconty.askinator
 
 import io.flutter.embedding.android.FlutterActivity
 
