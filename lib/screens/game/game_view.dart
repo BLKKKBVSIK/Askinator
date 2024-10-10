@@ -105,9 +105,13 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                           child: Chat(
                             messages: viewModel.getMessages(),
                             onSendPressed: (_) {},
-                            user: const types.User(id: 'JohnId'),
+                            user: const types.User(id: 'self'),
                             customBottomWidget: const SizedBox(),
-                            theme: const DefaultChatTheme(backgroundColor: Colors.transparent),
+                            theme: DefaultChatTheme(
+                              backgroundColor: Colors.transparent,
+                              primaryColor: ColorTheme.theme.primary,
+                              secondaryColor: ColorTheme.theme.secondary,
+                            ),
                           ),
                         ),
                       ),
