@@ -1,5 +1,6 @@
 import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/screens/game/game_viewmodel.dart';
+import 'package:askinator/screens/game/widgets/askinator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -49,73 +50,87 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                   color: ColorTheme.theme.onBackground,
                 ),
               ),
-              body: Stack(
-                // fit: StackFit.expand,
-                alignment: AlignmentDirectional.bottomCenter,
+              body: Column(
                 children: [
-                  // Rive view with genius + chat bubble
-                  Column(
-                    children: [
-                      Placeholder(
-                        fallbackHeight: MediaQuery.of(context).size.height * 0.6,
-                      ),
-                      const Spacer(),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'What is thinking of Askinator this time ?',
+                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: ColorTheme.theme.onBackground),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
+                  Expanded(
+                    child: Stack(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      children: [
+                        const Positioned(
+                          top: -50,
+                          left: -10,
+                          child: Askinator(),
+                        ),
 
-                  // Prompt + expanding chat
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          if (_animationController.isAnimating) return;
-
-                          if (_animation.value == 1) {
-                            _animationController.reverse();
-                            return;
-                          }
-
-                          _animationController.forward();
-                        },
-                        icon: const Icon(Icons.arrow_upward),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: PhysicalModel(
-                          shadowColor: ColorTheme.theme.primary,
-                          borderRadius: const BorderRadius.all(Radius.circular(32)),
-                          color: Colors.transparent,
+                        // Prompt + expanding chat
+                        Material(
                           elevation: 2,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: const BorderRadius.all(Radius.circular(32)),
-                                borderSide: BorderSide(color: ColorTheme.theme.primaryVariant),
+                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(36), topRight: Radius.circular(36)),
+                          color: ColorTheme.theme.neutral,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  if (_animationController.isAnimating) return;
+
+                                  if (_animation.value == 1) {
+                                    _animationController.reverse();
+                                    return;
+                                  }
+
+                                  _animationController.forward();
+                                },
+                                icon: const Icon(Icons.arrow_upward),
                               ),
-                              hintText: 'Ask a question',
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: PhysicalModel(
+                                  shadowColor: ColorTheme.theme.primary,
+                                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                                  color: Colors.transparent,
+                                  elevation: 2,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(Radius.circular(32)),
+                                        borderSide: BorderSide(color: ColorTheme.theme.primaryVariant),
+                                      ),
+                                      hintText: 'Ask a question',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizeTransition(
+                                sizeFactor: _animation,
+                                child: SizedBox(
+                                  height: MediaQuery.sizeOf(context).height * 0.6,
+                                  child: Chat(
+                                    messages: viewModel.getMessages(),
+                                    onSendPressed: (_) {},
+                                    user: const types.User(id: 'self'),
+                                    customBottomWidget: const SizedBox(),
+                                    theme: DefaultChatTheme(
+                                      backgroundColor: Colors.transparent,
+                                      primaryColor: ColorTheme.theme.primary,
+                                      secondaryColor: ColorTheme.theme.secondary,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      SizeTransition(
-                        sizeFactor: _animation,
-                        child: SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.6,
-                          child: Chat(
-                            messages: viewModel.getMessages(),
-                            onSendPressed: (_) {},
-                            user: const types.User(id: 'self'),
-                            customBottomWidget: const SizedBox(),
-                            theme: DefaultChatTheme(
-                              backgroundColor: Colors.transparent,
-                              primaryColor: ColorTheme.theme.primary,
-                              secondaryColor: ColorTheme.theme.secondary,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
