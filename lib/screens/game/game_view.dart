@@ -4,6 +4,7 @@ import 'package:askinator/screens/game/widgets/askinator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../misc/color_theme.dart';
@@ -38,9 +39,16 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
     return ViewModelBuilder<GameViewModel>.reactive(
         viewModelBuilder: () => sl<GameViewModel>(),
         builder: (context, viewModel, child) {
-          return SafeArea(
+          return AnimatedMeshGradient(
+            colors: [
+              ColorTheme.theme.primary,
+              ColorTheme.theme.secondaryVariant,
+              ColorTheme.theme.secondary,
+              ColorTheme.theme.primaryVariant,
+            ],
+            options: AnimatedMeshGradientOptions(frequency: 2, speed: 2),
             child: Scaffold(
-              backgroundColor: ColorTheme.theme.background,
+              backgroundColor: ColorTheme.theme.background.withOpacity(0.7),
               appBar: AppBar(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
@@ -73,7 +81,10 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                         // Prompt + expanding chat
                         Material(
                           elevation: 2,
-                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(36), topRight: Radius.circular(36)),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(36),
+                            topRight: Radius.circular(36),
+                          ),
                           color: ColorTheme.theme.neutral,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -109,6 +120,7 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ),
+                              SizedBox(height: 24),
                               SizeTransition(
                                 sizeFactor: _animation,
                                 child: SizedBox(
