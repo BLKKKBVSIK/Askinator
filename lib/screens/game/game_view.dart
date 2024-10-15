@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:ui';
 
 import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/screens/game/game_viewmodel.dart';
@@ -30,6 +30,8 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
     parent: _animationController,
     curve: Curves.fastOutSlowIn,
   );
+
+  late final _chatKey = GlobalKey();
 
   @override
   void dispose() {
@@ -66,7 +68,6 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  // padding: const EdgeInsets.all(4),
                   clipBehavior: Clip.antiAlias,
                   child: SizedBox.square(
                     dimension: 400,
@@ -156,58 +157,97 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                       ),
 
                       // Prompt + expanding chat
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              if (_animationController.isAnimating) return;
+                      ClipRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+                          child: Material(
+                            elevation: 2,
+                            color: ColorTheme.theme.background.withOpacity(0.7),
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(36),
+                              topLeft: Radius.circular(36),
+                            ),
+                            shadowColor: ColorTheme.theme.primary,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    if (_animationController.isAnimating) return;
 
-                              if (_animation.value == 1) {
-                                _animationController.reverse();
-                                return;
-                              }
+                                    if (_animation.value == 1) {
+                                      _animationController.reverse();
+                                      return;
+                                    }
 
-                              _animationController.forward();
-                            },
-                            icon: const Icon(Icons.arrow_upward),
-                            color: ColorTheme.theme.onBackground,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(Radius.circular(32)),
-                                  borderSide: BorderSide(color: ColorTheme.theme.secondary),
+                                    _animationController.forward();
+                                  },
+                                  icon: const Icon(Icons.arrow_upward),
+                                  color: ColorTheme.theme.onBackground,
                                 ),
-                                border: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(Radius.circular(32)),
-                                  borderSide: BorderSide(color: ColorTheme.theme.primaryVariant),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(Radius.circular(32)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: ColorTheme.theme.primary,
+                                          blurRadius: 36,
+                                          blurStyle: BlurStyle.outer,
+                                        ),
+                                        BoxShadow(
+                                          color: ColorTheme.theme.secondary.withOpacity(0.7),
+                                          blurRadius: 4,
+                                          blurStyle: BlurStyle.outer,
+                                        ),
+                                      ],
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: const BorderRadius.all(Radius.circular(32)),
+                                          borderSide: BorderSide(
+                                            color: ColorTheme.theme.secondary.withOpacity(0.7),
+                                            width: 1.5,
+                                            strokeAlign: BorderSide.strokeAlignOutside,
+                                          ),
+                                        ),
+                                        contentPadding: const EdgeInsets.all(20),
+                                        border: OutlineInputBorder(
+                                          borderRadius: const BorderRadius.all(Radius.circular(32)),
+                                          borderSide: BorderSide(color: ColorTheme.theme.primaryVariant),
+                                        ),
+                                        hintText: 'Is it a man ?',
+                                        label: Text('Ask a question to Askinator'),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                hintText: 'Ask a question',
-                              ),
+                                const SizedBox(height: 36),
+                                SizeTransition(
+                                  sizeFactor: _animation,
+                                  child: SizedBox(
+                                    height: MediaQuery.sizeOf(context).height * 0.6,
+                                    child: Chat(
+                                      key: _chatKey,
+                                      messages: viewModel.getMessages(),
+                                      onSendPressed: (_) {},
+                                      user: const types.User(id: 'self'),
+                                      customBottomWidget: const SizedBox(),
+                                      theme: DefaultChatTheme(
+                                        backgroundColor: Colors.transparent,
+                                        primaryColor: ColorTheme.theme.primary,
+                                        secondaryColor: ColorTheme.theme.secondary,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 36),
-                          SizeTransition(
-                            sizeFactor: _animation,
-                            child: SizedBox(
-                              height: MediaQuery.sizeOf(context).height * 0.6,
-                              child: Chat(
-                                messages: viewModel.getMessages(),
-                                onSendPressed: (_) {},
-                                user: const types.User(id: 'self'),
-                                customBottomWidget: const SizedBox(),
-                                theme: DefaultChatTheme(
-                                  backgroundColor: Colors.transparent,
-                                  primaryColor: ColorTheme.theme.primary,
-                                  secondaryColor: ColorTheme.theme.secondary,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
