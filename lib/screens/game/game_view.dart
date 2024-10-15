@@ -2,12 +2,12 @@ import 'dart:ui';
 
 import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/screens/game/game_viewmodel.dart';
+import 'package:askinator/screens/game/widgets/animated_moon.dart';
 import 'package:askinator/screens/game/widgets/askinator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../misc/color_theme.dart';
@@ -46,43 +46,12 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
         builder: (context, viewModel, child) {
           return Stack(
             children: [
-              Positioned(
+              const Positioned(
                 top: 0,
                 left: 0,
                 right: 0,
                 bottom: 0,
-                child: Container(
-                  margin: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      width: 4,
-                      color: ColorTheme.theme.primary.withOpacity(0.3),
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: ColorTheme.theme.primary,
-                        blurRadius: 16,
-                        spreadRadius: 4,
-                      ),
-                    ],
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: SizedBox.square(
-                    dimension: 400,
-                    child: AnimatedMeshGradient(
-                      colors: [
-                        ColorTheme.theme.primary,
-                        ColorTheme.theme.secondaryVariant,
-                        ColorTheme.theme.secondary,
-                        ColorTheme.theme.primaryVariant,
-                      ],
-                      options: AnimatedMeshGradientOptions(frequency: 2, speed: 2),
-                      child: ColoredBox(color: ColorTheme.theme.background.withOpacity(0.1)),
-                    ),
-                  ),
-                ),
+                child: AnimatedMoon(),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -105,51 +74,45 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                   ),
                 ),
                 child: Scaffold(
-                  backgroundColor: Colors.transparent, // ColorTheme.theme.background.withOpacity(0.65),
+                  backgroundColor: Colors.transparent,
+                  appBar: AppBar(
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.white,
+                    title: Text(
+                      'Askinator',
+                      style: GoogleFonts.shadowsIntoLight().copyWith(
+                        color: ColorTheme.theme.onBackground.withOpacity(0.8),
+                        fontSize: 36,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   body: Stack(
                     alignment: AlignmentDirectional.bottomCenter,
                     children: [
                       const SizedBox(height: double.infinity),
+
+                      // Texts
                       Positioned(
-                        top: 100,
+                        top: 50,
                         left: 0,
                         right: 0,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                              child: Text(
-                                'Askinator',
-                                style: GoogleFonts.shadowsIntoLight().copyWith(
-                                  color: ColorTheme.theme.onBackground.withOpacity(0.8),
-                                  fontSize: 28,
-                                  // fontWeight: FontWeight.w600,
-                                ),
-                                // Theme.of(context)
-                                //     .textTheme
-                                //     .titleSmall!
-                                //     .copyWith(color: ColorTheme.theme.onBackground.withOpacity(0.8)),
-                                textAlign: TextAlign.center,
-                              ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                          child: Text(
+                            'What am I thinking of ?',
+                            style: GoogleFonts.shadowsIntoLight().copyWith(
+                              color: ColorTheme.theme.onBackground,
+                              fontSize: 42,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
-                              child: Text(
-                                'What am I thinking of ?',
-                                style: GoogleFonts.shadowsIntoLight().copyWith(
-                                  color: ColorTheme.theme.onBackground,
-                                  fontSize: 42,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
+
                       const Positioned(
-                        top: -16,
+                        top: -140,
                         left: -22,
                         right: 0,
                         bottom: 0,
