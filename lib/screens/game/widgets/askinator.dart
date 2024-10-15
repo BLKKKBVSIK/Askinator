@@ -12,14 +12,10 @@ class AskinatorState extends State<Askinator> {
   @override
   Widget build(BuildContext context) {
 
-    return SizedBox(
-      width: 300,
-      height: MediaQuery.sizeOf(context).height * 0.5,
-      child: const RiveAnimation.asset(
-        'assets/bat.riv',
-        animations: ['idle'],
-        fit: BoxFit.cover,
-      ),
+    return const RiveAnimation.asset(
+      'assets/bat.riv',
+      animations: ['idle'],
+      // fit: BoxFit.,
     );
   }
 }
