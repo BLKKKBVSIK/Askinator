@@ -4,13 +4,16 @@ import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/screens/game/game_viewmodel.dart';
 import 'package:askinator/screens/game/widgets/animated_moon.dart';
 import 'package:askinator/screens/game/widgets/askinator.dart';
+import 'package:askinator/screens/game/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../misc/color_theme.dart';
+import '../../misc/lottie_decoder.dart';
 
 class GameView extends StatefulWidget {
   const GameView({super.key});
@@ -30,8 +33,6 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
     parent: _animationController,
     curve: Curves.fastOutSlowIn,
   );
-
-  late final _chatKey = GlobalKey();
 
   @override
   void dispose() {
@@ -92,6 +93,13 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                     children: [
                       const SizedBox(height: double.infinity),
 
+                      const Positioned(
+                        top: 500,
+                        right: 0,
+                        left: 0,
+                        child: Center(child: ChatBubble()),
+                      ),
+
                       // Texts
                       Positioned(
                         top: 50,
@@ -111,12 +119,17 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                         ),
                       ),
 
-                      const Positioned(
+                      Positioned(
                         top: -140,
                         left: -22,
                         right: 0,
                         bottom: 0,
-                        child: Askinator(),
+                        child: Askinator(
+                          onTap: () async {
+                            // await _chatBubbleAnimationController.forward();
+                            // _chatBubbleAnimationController.reset();
+                          },
+                        ),
                       ),
 
                       // Prompt + expanding chat
@@ -183,7 +196,7 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                                           borderSide: BorderSide(color: ColorTheme.theme.primaryVariant),
                                         ),
                                         hintText: 'Is it a man ?',
-                                        label: Text('Ask a question to Askinator'),
+                                        label: const Text('Ask a question to Askinator'),
                                       ),
                                     ),
                                   ),
@@ -194,7 +207,6 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                                   child: SizedBox(
                                     height: MediaQuery.sizeOf(context).height * 0.6,
                                     child: Chat(
-                                      key: _chatKey,
                                       messages: viewModel.getMessages(),
                                       onSendPressed: (_) {},
                                       user: const types.User(id: 'self'),
