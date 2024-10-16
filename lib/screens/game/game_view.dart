@@ -128,6 +128,7 @@ class GameViewState extends State<GameView> with TickerProviderStateMixin {
                           onTap: () async {
                             // await _chatBubbleAnimationController.forward();
                             // _chatBubbleAnimationController.reset();
+                            viewModel.askQuestion('Is it a man ?');
                           },
                         ),
                       ),

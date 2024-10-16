@@ -1,9 +1,20 @@
+import 'package:askinator/di/service_locator.dart';
+import 'package:askinator/services/appwrite_service.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
 @injectable
 class GameViewModel extends BaseViewModel {
+
+  final AppwriteService _appwriteService = sl<AppwriteService>();
+
+  Future<void> askQuestion(String question) async {
+    final answer = await _appwriteService.askQuestion(question);
+
+    print(answer);
+  }
+
   List<Message> getMessages() {
     return [
       const TextMessage(

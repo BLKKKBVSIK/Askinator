@@ -1,51 +1,66 @@
+import 'dart:convert';
+
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/enums.dart';
 import 'package:appwrite/models.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uuid/uuid.dart';
 
+import '../misc/appwrite_ids.dart';
+
 @lazySingleton
 class AppwriteService with ListenableServiceMixin {
-  final bool _isDebugEnabled = true;
+  static const bool _isDebugEnabled = true;
 
-  Client? _client;
   Session? _session;
 
   get isLogIn => _session != null;
 
-  // Id of Appwrite stuff
-  final String _projectId = '67052ee7000d48075b33';
-  final String _leaderboardDatabase = '67053c830038a5924d56';
-  final String _leaderboardCollection = '67053e27001f87a188e4';
+  late final Client _client =
+      Client().setEndpoint('https://cloud.appwrite.io/v1').setProject(projectId).setSelfSigned(status: _isDebugEnabled);
+
+  late final Functions _functions = Functions(_client);
+  late final Databases _databases = Databases(_client);
+
+  Future<String> askQuestion(String question) async {
+    final result = await _functions.createExecution(
+      functionId: textGenerationFunction,
+      body: jsonEncode({"prompt": question}),
+      xasync: false,
+      method: ExecutionMethod.pOST,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+
+    if (result.responseStatusCode != 200) {
+      throw Exception('Unexpected failed response : ${result.responseBody}, ${result.responseStatusCode}');
+    }
+
+    return jsonDecode(result.responseBody)['answer'];
+  }
 
   Future<Session?> signInAnonymously() async {
-    _client = Client()
-        .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject(_projectId)
-        .setSelfSigned(status: _isDebugEnabled);
-
-    if (_client == null) return null;
-
     // Throws exception quand la session expire (cad ?) (401)
-    _session = await Account(_client!).getSession(sessionId: 'current');
-    _session ??= await Account(_client!).createAnonymousSession();
+    _session = await Account(_client).getSession(sessionId: 'current');
+    _session ??= await Account(_client).createAnonymousSession();
 
     return _session;
   }
 
   Future addScoreToLeaderboard(String playerName, int score, int timeInSeconds) async {
-    if (_client == null || isLogIn == false) {
+    if (isLogIn == false) {
       return null;
     }
-
-    final database = Databases(_client!);
 
     const Uuid uuid = Uuid();
     final documentId = uuid.v4();
 
-    await database.createDocument(
-      databaseId: _leaderboardDatabase,
-      collectionId: _leaderboardCollection,
+    await _databases.createDocument(
+      databaseId: leaderboardDatabase,
+      collectionId: leaderboardCollection,
       documentId: documentId,
       data: {
         'PlayerName': playerName,
@@ -56,15 +71,13 @@ class AppwriteService with ListenableServiceMixin {
   }
 
   Future getLeadderboardData() async {
-    if (_client == null || isLogIn == false) {
+    if (isLogIn == false) {
       return null;
     }
 
-    final database = Databases(_client!);
-
-    final response = await database.listDocuments(
-      databaseId: _leaderboardDatabase,
-      collectionId: _leaderboardCollection,
+    final response = await _databases.listDocuments(
+      databaseId: leaderboardDatabase,
+      collectionId: leaderboardCollection,
     );
 
     print(response.documents);
