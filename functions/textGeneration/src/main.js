@@ -18,8 +18,15 @@ export default async ({ req, res }) => {
         { role: "user", content: req.bodyJson.prompt }],
       max_tokens: 5,
     })
-    
-    return res.json({ ok: true, completion: response.choices[0].message }, 200);
+
+    let responseMessage = response.choices[0].message;
+
+    if (responseMessage.content === undefined) {
+      console.error(`Response message ${responseMessage} does not contain a 'content' value`);
+      return res.json({ ok: false, error: 'Failed to query model.' }, 500);
+    }
+
+    return res.json({ ok: true, answer: responseMessage.content }, 200);
   } catch (err) {
     console.error(err);
     return res.json({ ok: false, error: 'Failed to query model.' }, 500);
