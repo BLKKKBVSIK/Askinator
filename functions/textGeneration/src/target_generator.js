@@ -1,12 +1,11 @@
 
 
 export function getTarget(seed) {
-    return allTargets[seed % allTargets.length];
+    return allTargets[seed % (allTargets.length + 1)];
 }
 
 const allTargets = [
     "Saitama",
-    "James Bond",
     "Albert Einstein",
     "Martin Luther King Jr.",
     "Cleopatra",
