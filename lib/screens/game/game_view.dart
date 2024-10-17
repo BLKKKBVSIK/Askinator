@@ -22,8 +22,7 @@ class GameViewState extends State<GameView> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<GameViewModel>.reactive(
         viewModelBuilder: () => sl<GameViewModel>()..initGame(),
-        builder: (context, viewModel, child)
-        {
+        builder: (context, viewModel, child) {
           return Stack(
             children: [
               const Positioned(
@@ -103,13 +102,12 @@ class GameViewState extends State<GameView> {
                         ),
                       ),
 
-                      const Positioned(
+                      Positioned(
                         top: 500,
                         right: 0,
                         left: 0,
-                        child: Center(child: ChatBubble()),
+                        child: Center(child: ChatBubble(gameViewModel: viewModel)),
                       ),
-
 
                       // Prompt + expanding chat
                       ChatSheet(

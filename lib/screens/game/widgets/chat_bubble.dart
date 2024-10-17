@@ -1,56 +1,44 @@
 import 'package:askinator/misc/color_theme.dart';
 import 'package:askinator/misc/lottie_decoder.dart';
+import 'package:askinator/screens/game/game_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class ChatBubble extends StatefulWidget {
-  const ChatBubble({super.key});
+class ChatBubble extends StatelessWidget {
+  const ChatBubble({super.key, required this.gameViewModel});
 
-  @override
-  State<StatefulWidget> createState() => ChatBubbleState();
-
-}
-
-class ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
-
-  late final _chatBubbleAnimationController = AnimationController(vsync: this);
-  bool _isLoadingAnswer = true;
-
-  @override
-  void dispose() {
-    _chatBubbleAnimationController.dispose();
-    super.dispose();
-  }
+  final GameViewModel gameViewModel;
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: ChatBubblePainter(
-        fillColor: ColorTheme.theme.background,
-        strokeColor: ColorTheme.theme.primary,
-      ),
-      child: Container(
-        padding: const EdgeInsets.only(left: 36.0, right: 36, bottom: 24, top: 24 + ChatBubblePainter.triangleHeight),
-        height: 100,
-        width: 200,
-        child: _isLoadingAnswer
-            ? Lottie.asset(
-          'assets/loading.lottie',
-          decoder: customDecoder,
-          onLoaded: (composition) {
-            _chatBubbleAnimationController.duration = composition.duration;
-          },
-        )
-            : Center(
-              child: Text(
-                        'Yes !',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
-                      ),
-            ),
-      ),
-    );
+    if (!gameViewModel.busy(GameViewModel.lastMessageKey)) {
+      if (gameViewModel.lastMessage.isEmpty) return const SizedBox();
+
+      return _buildBubble(
+        child: Center(
+          child: Text(
+            gameViewModel.lastMessage,
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
+          ),
+        ),
+      );
+    }
+
+    return _buildBubble(child: Lottie.asset('assets/loading.lottie', decoder: customDecoder));
   }
 
+  Widget _buildBubble({required Widget child}) => CustomPaint(
+        painter: ChatBubblePainter(
+          fillColor: ColorTheme.theme.background,
+          strokeColor: ColorTheme.theme.primary,
+        ),
+        child: Container(
+          padding: const EdgeInsets.only(left: 36.0, right: 36, bottom: 24, top: 24 + ChatBubblePainter.triangleHeight),
+          height: 100,
+          width: 200,
+          child: child,
+        ),
+      );
 }
 
 class ChatBubblePainter extends CustomPainter {

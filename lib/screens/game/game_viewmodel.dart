@@ -11,7 +11,11 @@ import 'package:uuid/uuid.dart';
 class GameViewModel extends BaseViewModel {
   final AppwriteService _appwriteService = sl<AppwriteService>();
 
+  static const String lastMessageKey = 'lastMessageKey';
+  String lastMessage = ''; // Used to fill the ChatBubble
+
   final List<Message> messages = [];
+
   late int _gameSeed;
 
   void initGame() {
@@ -25,8 +29,10 @@ class GameViewModel extends BaseViewModel {
 
     _addMessage(question, isUserMessage: true);
 
-    final answer = await _appwriteService.askQuestion(question, _gameSeed);
+    String answer = await runBusyFuture(_appwriteService.askQuestion(question, _gameSeed), busyObject: lastMessageKey);
+    answer = _sanitizeAnswer(answer);
 
+    lastMessage = answer;
     _addMessage(answer, isUserMessage: false);
   }
 
@@ -41,5 +47,14 @@ class GameViewModel extends BaseViewModel {
     );
 
     notifyListeners();
+  }
+
+  String _sanitizeAnswer(String answer) {
+    answer = answer.toLowerCase();
+
+    if (answer.contains('yes')) return 'Yes !';
+    if (answer.contains('no')) return 'No';
+
+    throw Exception('Answer is different');
   }
 }
