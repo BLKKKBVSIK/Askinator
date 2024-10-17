@@ -27,9 +27,12 @@ class ChatSheetState extends State<ChatSheet> with TickerProviderStateMixin {
   late final Animation<double> _animation = CurvedAnimation(
     parent: _animationController,
     curve: Curves.fastOutSlowIn,
-  );
+  )..addStatusListener((status) {
+    if ({AnimationStatus.completed, AnimationStatus.dismissed}.contains(status)) setState(() {});
+  });
 
-  late final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
+  final FocusNode _textEditingFocus = FocusNode();
 
   @override
   void dispose() {
@@ -64,7 +67,7 @@ class ChatSheetState extends State<ChatSheet> with TickerProviderStateMixin {
 
                 _animationController.forward();
               },
-              icon: const Icon(Icons.arrow_upward),
+              icon: Icon(_animation.value == 1 ? Icons.arrow_downward : Icons.arrow_upward),
               color: ColorTheme.theme.onBackground,
             ),
             Padding(
@@ -86,6 +89,7 @@ class ChatSheetState extends State<ChatSheet> with TickerProviderStateMixin {
                   ],
                 ),
                 child: TextField(
+                  focusNode: _textEditingFocus,
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     enabledBorder: OutlineInputBorder(
@@ -108,6 +112,7 @@ class ChatSheetState extends State<ChatSheet> with TickerProviderStateMixin {
                   controller: _textEditingController,
                   onSubmitted: (text) {
                     _textEditingController.clear();
+                    _textEditingFocus.requestFocus();
                     widget.gameViewModel.askQuestion(text);
                   },
                 ),

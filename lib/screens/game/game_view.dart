@@ -110,9 +110,7 @@ class GameViewState extends State<GameView> {
                       ),
 
                       // Prompt + expanding chat
-                      ChatSheet(
-                        gameViewModel: viewModel,
-                      ),
+                      ChatSheet(gameViewModel: viewModel),
                     ],
                   ),
                 ),
