@@ -1,125 +1,28 @@
 import 'package:askinator/di/service_locator.dart';
+import 'package:askinator/misc/responsive_layout_builder.dart';
+import 'package:askinator/screens/game/game_view_small.dart';
 import 'package:askinator/screens/game/game_viewmodel.dart';
-import 'package:askinator/screens/game/widgets/animated_moon.dart';
-import 'package:askinator/screens/game/widgets/chat_bubble.dart';
-import 'package:askinator/screens/game/widgets/chat_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart' hide RadialGradient;
 import 'package:stacked/stacked.dart';
 
-import '../../misc/color_theme.dart';
+import 'game_view_large.dart';
 
-class GameView extends StatefulWidget {
+class GameView extends StatelessWidget {
   const GameView({super.key});
 
-  @override
-  State<StatefulWidget> createState() => GameViewState();
-}
-
-class GameViewState extends State<GameView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<GameViewModel>.reactive(
       viewModelBuilder: () => sl<GameViewModel>()..initGame(),
-      builder: (context, viewModel, child) {
-        return Stack(
-          children: [
-            const Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: AnimatedMoon(),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                backgroundBlendMode: BlendMode.saturation,
-                image: const DecorationImage(
-                  image: AssetImage('assets/background.jpg'),
-                  opacity: 0.4,
-                  alignment: Alignment(0.25, 0),
-                  fit: BoxFit.fitHeight,
-                ),
-                gradient: RadialGradient(
-                  colors: [
-                    ColorTheme.theme.primary,
-                    ColorTheme.theme.background,
-                  ],
-                  stops: const [0, 0.6],
-                  center: const Alignment(0, -0.75),
-                  radius: 2,
-                  tileMode: TileMode.clamp,
-                ),
-              ),
-              child: Scaffold(
-                backgroundColor: Colors.transparent,
-                appBar: AppBar(
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.white,
-                  title: Text(
-                    'Askinator',
-                    style: GoogleFonts.shadowsIntoLight().copyWith(
-                      color: ColorTheme.theme.onBackground.withOpacity(0.8),
-                      fontSize: 36,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                body: Stack(
-                  alignment: AlignmentDirectional.bottomCenter,
-                  children: [
-                    const SizedBox(height: double.infinity),
-
-                    Positioned(
-                      top: 30,
-                      left: 0,
-                      right: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                        child: Text(
-                          viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
-                          style: GoogleFonts.shadowsIntoLight().copyWith(
-                            color: ColorTheme.theme.onBackground,
-                            fontSize: 42,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-
-                    Positioned(
-                      top: -140,
-                      left: -22,
-                      right: 0,
-                      bottom: 0,
-                      child: RiveAnimation.asset(
-                        'assets/bat.riv',
-                        onInit: (artboard) => _onRiveInit(artboard, viewModel),
-                      ),
-                    ),
-
-                    Positioned(
-                      top: 500,
-                      right: 0,
-                      left: 0,
-                      child: Center(child: ChatBubble(gameViewModel: viewModel)),
-                    ),
-
-                    // Prompt + expanding chat
-                    ChatSheet(gameViewModel: viewModel),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        );
-      },
+      builder: (context, viewModel, child) => ResponsiveLayoutBuilder(
+        smallScreenBuilder: (context) => GameViewSmall(viewModel: viewModel),
+        largeScreenBuilder: (context) => GameViewLarge(viewModel: viewModel),
+      ),
     );
   }
 
-  void _onRiveInit(Artboard artboard, GameViewModel viewModel) {
+  static void onRiveInit(Artboard artboard, GameViewModel viewModel) {
     final controller = StateMachineController.fromArtboard(artboard, 'State Machine 1');
     artboard.addController(controller!);
 

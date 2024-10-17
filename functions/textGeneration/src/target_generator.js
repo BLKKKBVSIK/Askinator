@@ -37,7 +37,6 @@ const allTargets = [
     "Gandalf",
     "Indiana Jones",
     "Black Panther",
-    "Elsa",
     "Wolverine",
     "Goku",
     "Lara Croft",

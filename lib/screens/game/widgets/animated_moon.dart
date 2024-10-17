@@ -5,7 +5,9 @@ import 'package:mesh_gradient/mesh_gradient.dart';
 import '../../../misc/color_theme.dart';
 
 class AnimatedMoon extends StatelessWidget {
-  const AnimatedMoon({super.key});
+  const AnimatedMoon({super.key, this.isSmall = true});
+
+  final bool isSmall;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -27,7 +29,7 @@ class AnimatedMoon extends StatelessWidget {
     ),
     clipBehavior: Clip.antiAlias,
     child: SizedBox.square(
-      dimension: 400,
+      dimension: isSmall ? 400 : MediaQuery.sizeOf(context).height * 0.6,
       child: AnimatedMeshGradient(
         colors: [
           ColorTheme.theme.primary,

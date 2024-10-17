@@ -1,23 +1,37 @@
 import 'dart:ui';
 
 import 'package:askinator/misc/color_theme.dart';
+import 'package:askinator/misc/responsive_layout_builder.dart';
 import 'package:askinator/screens/game/game_viewmodel.dart';
+import 'package:askinator/screens/game/widgets/chat_sheet_large.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
 
-class ChatSheet extends StatefulWidget {
+class ChatSheet extends StatelessWidget {
   const ChatSheet({super.key, required this.gameViewModel});
 
   final GameViewModel gameViewModel;
 
   @override
-  State<StatefulWidget> createState() => ChatSheetState();
+  Widget build(BuildContext context) => ResponsiveLayoutBuilder(
+        smallScreenBuilder: (context) => ChatSheetSmall(gameViewModel: gameViewModel),
+        largeScreenBuilder: (context) => ChatSheetLarge(gameViewModel: gameViewModel),
+      );
 }
 
-class ChatSheetState extends State<ChatSheet> with TickerProviderStateMixin {
+class ChatSheetSmall extends StatefulWidget {
+  const ChatSheetSmall({super.key, required this.gameViewModel});
+
+  final GameViewModel gameViewModel;
+
+  @override
+  State<StatefulWidget> createState() => ChatSheetSmallState();
+}
+
+class ChatSheetSmallState extends State<ChatSheetSmall> with TickerProviderStateMixin {
   late final _animationController = AnimationController(
     vsync: this,
     value: 0,
