@@ -14,7 +14,7 @@ class ChatBubble extends StatefulWidget {
 class ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
 
   late final _chatBubbleAnimationController = AnimationController(vsync: this);
-  bool _isLoadingAnswer = false;
+  bool _isLoadingAnswer = true;
 
   @override
   void dispose() {
