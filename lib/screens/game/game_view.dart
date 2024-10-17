@@ -21,8 +21,9 @@ class GameViewState extends State<GameView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<GameViewModel>.reactive(
-        viewModelBuilder: () => sl<GameViewModel>(),
-        builder: (context, viewModel, child) {
+        viewModelBuilder: () => sl<GameViewModel>()..initGame(),
+        builder: (context, viewModel, child)
+        {
           return Stack(
             children: [
               const Positioned(

@@ -39,25 +39,6 @@
     },
     "functions": [
         {
-            "$id": "6707d16e001a9cc45e29",
-            "execute": [
-                "any"
-            ],
-            "name": "Starter function",
-            "enabled": true,
-            "logging": true,
-            "runtime": "node-18.0",
-            "scopes": [
-                "users.read"
-            ],
-            "events": [],
-            "schedule": "",
-            "timeout": 15,
-            "entrypoint": "src/main.js",
-            "commands": "npm install",
-            "path": "functions/firstFunction"
-        },
-        {
             "$id": "6707deba003bba9eb90c",
             "execute": [
                 "any"

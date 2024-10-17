@@ -23,10 +23,13 @@ class AppwriteService with ListenableServiceMixin {
   late final Functions _functions = Functions(_client);
   late final Databases _databases = Databases(_client);
 
-  Future<String> askQuestion(String question) async {
+  Future<String> askQuestion(String question, int seed) async {
     final result = await _functions.createExecution(
       functionId: textGenerationFunction,
-      body: jsonEncode({"prompt": question}),
+      body: jsonEncode({
+        "prompt": question,
+        "seed": seed,
+      }),
       xasync: false,
       method: ExecutionMethod.pOST,
       headers: {
