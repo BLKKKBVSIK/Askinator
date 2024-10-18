@@ -11,7 +11,14 @@ class LeaderboardViewModel extends BaseViewModel {
   List<LeaderboardEntry> leaderboardEntries = [];
 
   Future initialise() async {
-    leaderboardEntries = await _appwriteService.getLeadderboardData();
+    // leaderboardEntries = await _appwriteService.getLeadderboardData();
+    leaderboardEntries = [
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+    ];
     notifyListeners();
   }
 }
