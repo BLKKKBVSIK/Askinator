@@ -1,0 +1,108 @@
+{
+    "projectId": "67052ee7000d48075b33",
+    "projectName": "Askinator",
+    "settings": {
+        "services": {
+            "account": true,
+            "avatars": true,
+            "databases": true,
+            "locale": true,
+            "health": true,
+            "storage": true,
+            "teams": true,
+            "users": true,
+            "functions": true,
+            "graphql": true,
+            "messaging": true
+        },
+        "auth": {
+            "methods": {
+                "jwt": true,
+                "phone": true,
+                "invites": true,
+                "anonymous": true,
+                "email-otp": true,
+                "magic-url": true,
+                "email-password": true
+            },
+            "security": {
+                "duration": 31536000,
+                "limit": 0,
+                "sessionsLimit": 10,
+                "passwordHistory": 0,
+                "passwordDictionary": false,
+                "personalDataCheck": false,
+                "sessionAlerts": false,
+                "mockNumbers": []
+            }
+        }
+    },
+    "functions": [
+        {
+            "$id": "6707deba003bba9eb90c",
+            "execute": [
+                "any"
+            ],
+            "name": "Text generation",
+            "enabled": true,
+            "logging": true,
+            "runtime": "node-18.0",
+            "scopes": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 30,
+            "entrypoint": "src/main.js",
+            "commands": "npm install",
+            "path": "functions/textGeneration"
+        }
+    ],
+    "databases": [
+        {
+            "$id": "67053c830038a5924d56",
+            "name": "Leaderboard",
+            "enabled": true
+        }
+    ],
+    "collections": [
+        {
+            "$id": "67053e27001f87a188e4",
+            "$permissions": [
+                "create(\"any\")",
+                "read(\"any\")"
+            ],
+            "databaseId": "67053c830038a5924d56",
+            "name": "leaderboardScores",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [
+                {
+                    "key": "PlayerName",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 3,
+                    "default": null
+                },
+                {
+                    "key": "NumberOfQueryAsked",
+                    "type": "integer",
+                    "required": true,
+                    "array": false,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807,
+                    "default": null
+                },
+                {
+                    "key": "GameTimeInSeconds",
+                    "type": "integer",
+                    "required": true,
+                    "array": false,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807,
+                    "default": null
+                }
+            ],
+            "indexes": []
+        }
+    ]
+}
