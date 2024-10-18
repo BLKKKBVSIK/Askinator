@@ -16,4 +16,11 @@ class SplashViewModel extends BaseViewModel {
   Future goToLeaderboard() async {
     await _navigationService.navigateTo(Routes.leaderboardView);
   }
+  
+  Future testMethod() async {
+    // if (!isLogIn) await _appwriteService.signInAnonymously();
+    await _appwriteService.getLeadderboardData();
+  }
+
+  void navigateToGameView() => _navigationService.navigateTo(Routes.gameView);
 }
