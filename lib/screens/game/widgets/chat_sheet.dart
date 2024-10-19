@@ -17,6 +17,24 @@ class ChatSheet extends StatelessWidget {
 
   final GameViewModel gameViewModel;
 
+
+  // Response loading from askinator
+  static Widget customMessageBuilder(types.CustomMessage message, {required int messageWidth}) {
+    const theme = DefaultChatTheme();
+
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: theme.messageInsetsHorizontal,
+        vertical: theme.messageInsetsVertical,
+      ),
+      child: Lottie.asset(
+        width: 56,
+        'assets/loading.lottie',
+        decoder: customDecoder,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => ResponsiveLayoutBuilder(
         smallScreenBuilder: (context) => ChatSheetSmall(gameViewModel: gameViewModel),
@@ -176,7 +194,7 @@ class ChatSheetSmallState extends State<ChatSheetSmall> with TickerProviderState
                         primaryColor: ColorTheme.theme.primary,
                         secondaryColor: ColorTheme.theme.secondary,
                       ),
-                      customMessageBuilder: _customMessageBuilder,
+                      customMessageBuilder: ChatSheet.customMessageBuilder,
                     ),
                   ),
                 ),
@@ -185,21 +203,4 @@ class ChatSheetSmallState extends State<ChatSheetSmall> with TickerProviderState
           ),
         ),
       );
-
-  // Response loading from askinator
-  Widget _customMessageBuilder(types.CustomMessage message, {required int messageWidth}) {
-    const theme = DefaultChatTheme();
-
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: theme.messageInsetsHorizontal,
-        vertical: theme.messageInsetsVertical,
-      ),
-      child: Lottie.asset(
-        width: 56,
-        'assets/loading.lottie',
-        decoder: customDecoder,
-      ),
-    );
-  }
 }
