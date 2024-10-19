@@ -53,7 +53,11 @@ class GameViewModel extends BaseViewModel {
 
     _addMessage(question, isUserMessage: true);
 
+    _addLoadingMessage();
+    notifyListeners();
+
     String answer = await runBusyFuture(_appwriteService.askQuestion(question, _gameSeed), busyObject: lastMessageKey);
+
     answer = _sanitizeAnswer(answer);
 
     lastMessage = answer;
@@ -65,16 +69,24 @@ class GameViewModel extends BaseViewModel {
   }
 
   void _addMessage(String content, {required bool isUserMessage}) {
-    messages.insert(
-      0,
-      TextMessage(
-        author: isUserMessage ? const User(id: 'player') : const User(id: 'askinator'),
-        id: const Uuid().v4(),
-        text: content,
-      ),
-    );
+    if (isUserMessage) {
+      messages.insert(
+        0,
+        TextMessage(
+          author: const User(id: 'player'),
+          id: const Uuid().v4(),
+          text: content,
+        ),
+      );
+    } else {
+      messages[0] = TextMessage(author: const User(id: 'askinator'), id: messages.first.id, text: content);
+    }
 
     notifyListeners();
+  }
+
+  void _addLoadingMessage() {
+    messages.insert(0, CustomMessage(author: const User(id: 'askinator'), id: const Uuid().v4()));
   }
 
   String _sanitizeAnswer(String answer) {
