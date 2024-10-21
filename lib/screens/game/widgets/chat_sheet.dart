@@ -92,9 +92,9 @@ class ChatSheetSmallState extends State<ChatSheetSmall> with TickerProviderState
                           child: AnimatedMeshGradient(
                             colors: [
                               ColorTheme.theme.primary,
-                              ColorTheme.theme.secondaryVariant,
-                              ColorTheme.theme.secondary,
-                              ColorTheme.theme.primaryVariant,
+                              ColorTheme.theme.background,
+                              ColorTheme.theme.primary,
+                              ColorTheme.theme.primary,
                             ],
                             options: AnimatedMeshGradientOptions(frequency: 2, speed: 2),
                             child: OutlinedButton(
