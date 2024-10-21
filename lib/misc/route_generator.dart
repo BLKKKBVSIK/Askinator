@@ -1,4 +1,5 @@
 import 'package:askinator/screens/game/game_view.dart';
+import 'package:askinator/screens/home/home_view.dart';
 import 'package:askinator/screens/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,8 @@ class RouteGenerator {
           settings: settings,
           builder: (context) => const GameView(),
         );
+      case Routes.homeView:
+        return MaterialPageRoute(builder: (_) => const HomeView());
 
       default:
         return _errorRoute(settings);

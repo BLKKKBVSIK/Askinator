@@ -1,5 +1,4 @@
 import 'package:askinator/di/service_locator.dart';
-import 'package:askinator/services/appwrite_service.dart';
 import 'package:askinator/services/navigation_service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
@@ -8,15 +7,11 @@ import '../../misc/route_generator.dart';
 
 @injectable
 class SplashViewModel extends BaseViewModel {
-  final AppwriteService _appwriteService = sl<AppwriteService>();
   final NavigationService _navigationService = sl<NavigationService>();
 
-  bool get isLogIn => _appwriteService.isLogIn;
-
-  Future testMethod() async {
-    // if (!isLogIn) await _appwriteService.signInAnonymously();
-    await _appwriteService.getLeadderboardData();
+  void init() {
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      _navigationService.navigateTo(Routes.homeView);
+    });
   }
-
-  void navigateToGameView() => _navigationService.navigateTo(Routes.gameView);
 }
