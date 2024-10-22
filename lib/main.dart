@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/misc/route_generator.dart';
 import 'package:askinator/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rive/rive.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +15,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  unawaited(RiveFile.initialize());
+
   runApp(const MyApp());
 }
 

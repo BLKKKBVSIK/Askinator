@@ -42,10 +42,12 @@ flutter:
     - assets/candy.png
     - assets/candy-rotated.png
     - assets/background.jpg
+    - assets/home-background.jpg
     - assets/loading.lottie
     - assets/medal-first.png
     - assets/medal-second.png
     - assets/medal-third.png
+    - assets/pumpkin.lottie
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
