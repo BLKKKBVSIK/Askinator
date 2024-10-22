@@ -20,8 +20,6 @@ class RouteGenerator {
               return const GameView();
             },
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              if (animation.value == 1) return child;
-
               if (animation.value <= 0.5) {
                 final curvedAnimation = CurvedAnimation(parent: animation, curve: const Interval(0, 0.5));
 
