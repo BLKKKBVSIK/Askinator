@@ -17,11 +17,12 @@ class HomeView extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: const AssetImage('assets/home-background.jpg'),
-                  fit: MediaQuery.sizeOf(context).width > ResponsiveLayoutBuilder.thresholdWidth
-                      ? BoxFit.cover
-                      : BoxFit.fitHeight,
-                  alignment: const Alignment(.07, 0)),
+                image: const AssetImage('assets/home-background.jpg'),
+                fit: MediaQuery.sizeOf(context).width > ResponsiveLayoutBuilder.thresholdWidth
+                    ? BoxFit.cover
+                    : BoxFit.fitHeight,
+                alignment: const Alignment(.07, 0),
+              ),
             ),
             child: Scaffold(
               backgroundColor: Colors.transparent,
@@ -31,6 +32,11 @@ class HomeView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 180),
+                    ElevatedButton(
+                      onPressed: viewModel.navigateToLeaderboardView,
+                      child: const Text('Leaderboard'),
+                    ),
+                    const SizedBox(height: 128),
                     GradientButton(onPressed: viewModel.navigateToGameView),
                   ],
                 ),

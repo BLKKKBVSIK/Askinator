@@ -18,6 +18,14 @@ class LeaderboardViewModel extends BaseViewModel {
       LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
       LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
       LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
+      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
     ];
     notifyListeners();
   }

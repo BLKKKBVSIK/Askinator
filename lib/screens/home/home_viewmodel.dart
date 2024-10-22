@@ -19,4 +19,6 @@ class HomeViewModel extends BaseViewModel {
   }
 
   void navigateToGameView() => _navigationService.navigateTo(Routes.gameView);
+
+  void navigateToLeaderboardView() => _navigationService.navigateTo(Routes.leaderboardView);
 }

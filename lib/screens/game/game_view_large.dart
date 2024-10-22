@@ -1,3 +1,4 @@
+import 'package:askinator/di/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:askinator/screens/game/widgets/animated_moon.dart';
 import 'package:askinator/screens/game/widgets/chat_sheet.dart';
@@ -5,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart' hide RadialGradient, LinearGradient, Image;
 
 import '../../misc/color_theme.dart';
+import '../../services/navigation_service.dart';
 import 'game_view.dart';
 import 'game_viewmodel.dart';
 
@@ -52,18 +54,6 @@ class GameViewLarge extends StatelessWidget {
               ),
               child: Scaffold(
                 backgroundColor: Colors.transparent,
-                // appBar: AppBar(
-                //   backgroundColor: Colors.transparent,
-                //   foregroundColor: Colors.white,
-                //   title: Text(
-                //     'Askinator',
-                //     style: GoogleFonts.shadowsIntoLight().copyWith(
-                //       color: ColorTheme.theme.onBackground.withOpacity(0.8),
-                //       fontSize: 36,
-                //     ),
-                //     textAlign: TextAlign.center,
-                //   ),
-                // ),
                 body: Row(
                   children: [
                     Expanded(
@@ -71,17 +61,20 @@ class GameViewLarge extends StatelessWidget {
                         children: [
                           SizedBox(
                             height: 128,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 56.0),
-                              child: Text(
-                                // Warning : duplicate with GameViewSmall
-                                viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
-                                style: GoogleFonts.shadowsIntoLight().copyWith(
-                                  color: ColorTheme.theme.onBackground,
-                                  fontSize: 42,
-                                  fontWeight: FontWeight.w600,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 56.0),
+                                child: Text(
+                                  // Warning : duplicate with GameViewSmall
+                                  viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
+                                  style: GoogleFonts.shadowsIntoLight().copyWith(
+                                    color: ColorTheme.theme.onBackground,
+                                    fontSize: 42,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -101,6 +94,20 @@ class GameViewLarge extends StatelessWidget {
                     // Prompt + chat
                     Expanded(child: ChatSheet(gameViewModel: viewModel)),
                   ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+                child: IconButton(
+                  onPressed: sl<NavigationService>().goBack,
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
