@@ -46,7 +46,9 @@ flutter:
     - assets/moon.png
     - assets/bat.png
     - assets/background.jpg
+    - assets/home-background.jpg
     - assets/loading.lottie
+    - assets/pumpkin.lottie
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

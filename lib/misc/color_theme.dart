@@ -11,6 +11,7 @@ class ColorTheme {
 
   final Color background;
   final Color onBackground;
+  final Color backgroundOverlay;
 
   ColorTheme({
     required this.primary,
@@ -20,6 +21,7 @@ class ColorTheme {
     required this.neutral,
     required this.background,
     required this.onBackground,
+    required this.backgroundOverlay,
   });
 
   static ColorTheme get theme => ColorTheme._themeA();
@@ -31,7 +33,8 @@ class ColorTheme {
         secondaryVariant = const Color(0xffd14c85),
         neutral = const Color(0xff05091d),
         background = const Color(0xff1d1d1d),
-        onBackground = const Color(0xffffffff);
+        onBackground = const Color(0xffffffff),
+        backgroundOverlay = const Color(0xff550c8f);
 
   ColorTheme._themeB()
       : primary = const Color(0xffe26b07),
@@ -40,7 +43,8 @@ class ColorTheme {
         secondaryVariant = const Color(0xff853174),
         neutral = const Color(0xff59351c),
         background = const Color(0xff1d1d1d),
-        onBackground = const Color(0xffffffff);
+        onBackground = const Color(0xffffffff),
+        backgroundOverlay = const Color(0xff550c8f);
 
   ColorTheme._themeC()
       : primary = const Color(0xff8a4985),
@@ -49,5 +53,6 @@ class ColorTheme {
         secondaryVariant = const Color(0xffe44d19),
         neutral = const Color(0xffcc021a),
         background = const Color(0xff1d1d1d),
-        onBackground = const Color(0xffffffff);
+        onBackground = const Color(0xffffffff),
+        backgroundOverlay = const Color(0xff550c8f);
 }

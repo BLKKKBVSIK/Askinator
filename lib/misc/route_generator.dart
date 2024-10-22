@@ -1,4 +1,5 @@
 import 'package:askinator/screens/game/game_view.dart';
+import 'package:askinator/screens/home/home_view.dart';
 import 'package:askinator/screens/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +13,65 @@ class RouteGenerator {
           builder: (context) => const SplashView(),
         );
       case Routes.gameView:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (context) => const GameView(),
+        return PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 1500),
+            reverseTransitionDuration: const Duration(milliseconds: 1500),
+            pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+              return const GameView();
+            },
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              if (animation.value <= 0.5) {
+                final curvedAnimation = CurvedAnimation(parent: animation, curve: const Interval(0, 0.5));
+
+                return FadeTransition(
+                  opacity: curvedAnimation,
+                  child: ColoredBox(
+                    color: Colors.black,
+                    child: SizedBox.expand(
+                      child: Container(
+                        height: 200,
+                        width: 200,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.transparent,
+                        ),
+                        child: const SizedBox.expand(),
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              final curvedAnimation = CurvedAnimation(parent: animation, curve: const Interval(0.5, 1));
+
+              return Stack(
+                children: [
+                  const ColoredBox(color: Colors.black, child: SizedBox.expand()),
+                  FadeTransition(
+                    opacity: curvedAnimation,
+                    child: child,
+                  ),
+                ],
+              );
+            });
+      case Routes.homeView:
+        return PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 900),
+          pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+            return const HomeView();
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            final tween = Tween(begin: 0.0, end: 1.0);
+            final curvedAnimation = CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInQuart,
+            );
+
+            return FadeTransition(
+              opacity: tween.animate(curvedAnimation),
+              child: child,
+            );
+          },
         );
 
       default:
