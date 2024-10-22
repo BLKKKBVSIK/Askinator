@@ -9,9 +9,7 @@ import '../../misc/route_generator.dart';
 class SplashViewModel extends BaseViewModel {
   final NavigationService _navigationService = sl<NavigationService>();
 
-  void init() {
-    Future.delayed(const Duration(milliseconds: 1500), () {
-      _navigationService.navigateTo(Routes.homeView);
-    });
+  void navigateToHomeView() {
+    _navigationService.navigateTo(Routes.homeView);
   }
 }

@@ -46,6 +46,7 @@ flutter:
     - assets/moon.png
     - assets/bat.png
     - assets/background.jpg
+    - assets/home-background.jpg
     - assets/loading.lottie
     - assets/pumpkin.lottie
 

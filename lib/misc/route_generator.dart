@@ -18,7 +18,24 @@ class RouteGenerator {
           builder: (context) => const GameView(),
         );
       case Routes.homeView:
-        return MaterialPageRoute(builder: (_) => const HomeView());
+        return PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 900),
+          pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+            return const HomeView();
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            final tween = Tween(begin: 0.0, end: 1.0);
+            final curvedAnimation = CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInQuart,
+            );
+
+            return FadeTransition(
+              opacity: tween.animate(curvedAnimation),
+              child: child,
+            );
+          },
+        );
 
       default:
         return _errorRoute(settings);
