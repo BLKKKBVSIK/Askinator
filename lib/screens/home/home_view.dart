@@ -2,6 +2,7 @@ import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/misc/color_theme.dart';
 import 'package:askinator/misc/responsive_layout_builder.dart';
 import 'package:askinator/screens/home/home_viewmodel.dart';
+import 'package:askinator/screens/shared/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
@@ -31,32 +32,7 @@ class HomeView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 280),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(36),
-                  child: AnimatedMeshGradient(
-                    colors: [
-                      ColorTheme.theme.primary,
-                      ColorTheme.theme.background,
-                      ColorTheme.theme.primary,
-                      ColorTheme.theme.primary,
-                    ],
-                    options: AnimatedMeshGradientOptions(frequency: 2, speed: 2),
-                    child: OutlinedButton(
-                      onPressed: viewModel.navigateToGameView,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-                        child: Text(
-                          'Start a game !',
-                          style: GoogleFonts.shadowsIntoLight().copyWith(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                GradientButton(onPressed: viewModel.navigateToGameView),
               ],
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:askinator/misc/color_theme.dart';
 import 'package:askinator/misc/responsive_layout_builder.dart';
 import 'package:askinator/screens/game/game_viewmodel.dart';
 import 'package:askinator/screens/game/widgets/chat_sheet_large.dart';
+import 'package:askinator/screens/shared/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -87,32 +88,7 @@ class ChatSheetSmallState extends State<ChatSheetSmall> with TickerProviderState
                 Padding(
                   padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
                   child: widget.gameViewModel.gameSuccess
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(36),
-                          child: AnimatedMeshGradient(
-                            colors: [
-                              ColorTheme.theme.primary,
-                              ColorTheme.theme.background,
-                              ColorTheme.theme.primary,
-                              ColorTheme.theme.primary,
-                            ],
-                            options: AnimatedMeshGradientOptions(frequency: 2, speed: 2),
-                            child: OutlinedButton(
-                              onPressed: widget.gameViewModel.initGame,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-                                child: Text(
-                                  'Play again',
-                                  style: GoogleFonts.shadowsIntoLight().copyWith(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
+                      ? GradientButton(onPressed: widget.gameViewModel.initGame)
                       : Container(
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(Radius.circular(32)),
