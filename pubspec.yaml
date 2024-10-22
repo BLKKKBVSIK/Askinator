@@ -34,6 +34,10 @@ dev_dependencies:
     sdk: flutter
   injectable_generator: ^1.5.4
 
+dependency_overrides:
+  collection: ^1.19.1
+
+
 
 flutter:
 
