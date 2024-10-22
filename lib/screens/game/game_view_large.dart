@@ -3,18 +3,17 @@ import 'package:askinator/screens/game/widgets/animated_moon.dart';
 import 'package:askinator/screens/game/widgets/chat_sheet.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart' hide RadialGradient, LinearGradient, Image;
+import 'package:stacked_hooks/stacked_hooks.dart';
 
 import '../../misc/color_theme.dart';
 import 'game_view.dart';
 import 'game_viewmodel.dart';
 
-class GameViewLarge extends StatelessWidget {
-  const GameViewLarge({super.key, required this.viewModel});
-
-  final GameViewModel viewModel;
+class GameViewLarge extends StackedHookView<GameViewModel> {
+  const GameViewLarge({super.key});
 
   @override
-  Widget build(BuildContext context) => Stack(
+  Widget builder(BuildContext context, GameViewModel viewModel) => Stack(
         children: [
           const Positioned(
             top: 0,
@@ -73,7 +72,9 @@ class GameViewLarge extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 56.0),
                             child: Text(
                               // Warning : duplicate with GameViewSmall
-                              viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
+                              viewModel.gameSuccess
+                                  ? 'Well done ! You pierced my mind !'
+                                  : 'What am I thinking of ?',
                               style: GoogleFonts.shadowsIntoLight().copyWith(
                                 color: ColorTheme.theme.onBackground,
                                 fontSize: 42,

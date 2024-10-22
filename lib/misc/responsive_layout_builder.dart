@@ -14,9 +14,11 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceWidth = MediaQuery.sizeOf(context).width;
 
-    if (deviceWidth > thresholdWidth && largeScreenBuilder != null) return largeScreenBuilder!(context);
+    if (deviceWidth > thresholdWidth && largeScreenBuilder != null) {
+      return largeScreenBuilder!(context);
+    }
 
     return smallScreenBuilder(context);
   }

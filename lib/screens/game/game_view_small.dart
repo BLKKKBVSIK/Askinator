@@ -4,18 +4,16 @@ import 'package:askinator/screens/game/widgets/chat_bubble.dart';
 import 'package:askinator/screens/game/widgets/chat_sheet.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart' hide RadialGradient;
-
+import 'package:stacked_hooks/stacked_hooks.dart';
 import '../../misc/color_theme.dart';
 import 'game_view.dart';
 import 'game_viewmodel.dart';
 
-class GameViewSmall extends StatelessWidget {
-  const GameViewSmall({super.key, required this.viewModel});
-
-  final GameViewModel viewModel;
+class GameViewSmall extends StackedHookView<GameViewModel> {
+  const GameViewSmall({super.key});
 
   @override
-  Widget build(BuildContext context) => Stack(
+  Widget builder(BuildContext context, GameViewModel viewModel) => Stack(
         children: [
           const Positioned(
             top: 0,
@@ -62,7 +60,6 @@ class GameViewSmall extends StatelessWidget {
                 alignment: AlignmentDirectional.bottomCenter,
                 children: [
                   const SizedBox(height: double.infinity),
-
                   Positioned(
                     top: 30,
                     left: 0,
@@ -71,7 +68,9 @@ class GameViewSmall extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                       child: Text(
                         // Warning : duplicate with GameViewLarge
-                        viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
+                        viewModel.gameSuccess
+                            ? 'Well done ! You pierced my mind !'
+                            : 'What am I thinking of ?',
                         style: GoogleFonts.shadowsIntoLight().copyWith(
                           color: ColorTheme.theme.onBackground,
                           fontSize: 42,
@@ -81,7 +80,6 @@ class GameViewSmall extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   Positioned(
                     top: -140,
                     left: -22,
@@ -92,14 +90,12 @@ class GameViewSmall extends StatelessWidget {
                       onInit: (artboard) => GameView.onRiveInit(artboard, viewModel),
                     ),
                   ),
-
                   Positioned(
                     top: 500,
                     right: 0,
                     left: 0,
                     child: Center(child: ChatBubble(gameViewModel: viewModel)),
                   ),
-
                   // Prompt + expanding chat
                   ChatSheet(gameViewModel: viewModel),
                 ],
