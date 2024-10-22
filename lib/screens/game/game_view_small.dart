@@ -1,3 +1,5 @@
+import 'package:askinator/di/service_locator.dart';
+import 'package:askinator/screens/splash/splash_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:askinator/screens/game/widgets/animated_moon.dart';
 import 'package:askinator/screens/game/widgets/chat_bubble.dart';
@@ -87,8 +89,8 @@ class GameViewSmall extends StatelessWidget {
                     left: -22,
                     right: 0,
                     bottom: 0,
-                    child: RiveAnimation.asset(
-                      'assets/bat.riv',
+                    child: RiveAnimation.direct(
+                      sl<SplashViewModel>().batFile,
                       onInit: (artboard) => GameView.onRiveInit(artboard, viewModel),
                     ),
                   ),

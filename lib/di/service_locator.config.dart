@@ -31,6 +31,6 @@ _i1.GetIt $initGetIt(
   gh.factory<_i4.GameViewModel>(() => _i4.GameViewModel());
   gh.factory<_i5.HomeViewModel>(() => _i5.HomeViewModel());
   gh.lazySingleton<_i6.NavigationService>(() => _i6.NavigationService());
-  gh.factory<_i7.SplashViewModel>(() => _i7.SplashViewModel());
+  gh.lazySingleton<_i7.SplashViewModel>(() => _i7.SplashViewModel());
   return get;
 }

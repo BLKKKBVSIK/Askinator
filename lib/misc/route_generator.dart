@@ -13,10 +13,49 @@ class RouteGenerator {
           builder: (context) => const SplashView(),
         );
       case Routes.gameView:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (context) => const GameView(),
-        );
+        return PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 1500),
+            reverseTransitionDuration: const Duration(milliseconds: 1500),
+            pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+              return const GameView();
+            },
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              if (animation.value == 1) return child;
+
+              if (animation.value <= 0.5) {
+                final curvedAnimation = CurvedAnimation(parent: animation, curve: const Interval(0, 0.5));
+
+                return FadeTransition(
+                  opacity: curvedAnimation,
+                  child: ColoredBox(
+                    color: Colors.black,
+                    child: SizedBox.expand(
+                      child: Container(
+                        height: 200,
+                        width: 200,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.transparent,
+                        ),
+                        child: const SizedBox.expand(),
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              final curvedAnimation = CurvedAnimation(parent: animation, curve: const Interval(0.5, 1));
+
+              return Stack(
+                children: [
+                  const ColoredBox(color: Colors.black, child: SizedBox.expand()),
+                  FadeTransition(
+                    opacity: curvedAnimation,
+                    child: child,
+                  ),
+                ],
+              );
+            });
       case Routes.homeView:
         return PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 900),
