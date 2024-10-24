@@ -1,3 +1,4 @@
+import 'package:askinator/screens/credits/credits_view.dart';
 import 'package:askinator/screens/leaderboard/leaderboard_view.dart';
 import 'package:askinator/screens/game/game_view.dart';
 import 'package:askinator/screens/home/home_view.dart';
@@ -66,6 +67,11 @@ class RouteGenerator {
             );
           },
         );
+      case Routes.creditsView:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const CreditsView(),
+        );
 
       default:
         return _errorRoute(settings);
@@ -91,4 +97,5 @@ class Routes {
   static const String homeView = '/home';
   static const String leaderboardView = '/leaderboard';
   static const String gameView = '/game';
+  static const String creditsView = '/credits';
 }

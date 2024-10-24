@@ -38,6 +38,22 @@ class HomeView extends StatelessWidget {
                     ),
                     const SizedBox(height: 128),
                     GradientButton(onPressed: viewModel.navigateToGameView),
+                    const SizedBox(height: 128),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.all(36.0),
+                      child: TextButton(
+                        onPressed: viewModel.navigateToCreditsView,
+                        child: Text(
+                          'Credits',
+                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                color: Colors.white,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.white,
+                              ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
