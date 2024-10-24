@@ -6,10 +6,6 @@ import 'package:askinator/screens/shared/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mesh_gradient/mesh_gradient.dart';
-
-import 'chat_sheet.dart';
 
 class ChatSheetLarge extends StatefulWidget {
   const ChatSheetLarge({super.key, required this.gameViewModel});
@@ -27,6 +23,7 @@ class ChatSheetLargeState extends State<ChatSheetLarge> with TickerProviderState
   @override
   void dispose() {
     _textEditingController.dispose();
+    _textEditingFocus.dispose();
     super.dispose();
   }
 
@@ -98,6 +95,8 @@ class ChatSheetLargeState extends State<ChatSheetLarge> with TickerProviderState
                                   borderSide: BorderSide(color: ColorTheme.theme.primaryVariant),
                                 ),
                                 hintText: 'Is it a man ?',
+                                hintStyle:
+                                    Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey.shade700),
                                 label: const Text('Ask a question to Askinator'),
                               ),
                               style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
