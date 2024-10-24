@@ -17,7 +17,9 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
   Widget builder(BuildContext context, GameViewModel viewModel) {
     final double screenHeight = MediaQuery.sizeOf(context).height;
 
-    return Stack(
+    return ColoredBox(
+        color: ColorTheme.theme.backgroundOverlay,
+        child: Stack(
       children: [
         const Positioned(
           top: 0,
@@ -73,13 +75,35 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
                       horizontal: 16.0,
                       vertical: 4,
                     ),
-                    child: Text(
-                      // Warning : duplicate with GameViewLarge
-                      viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
-                      style: GoogleFonts.shadowsIntoLight().copyWith(
-                        color: ColorTheme.theme.onBackground,
-                        fontSize: 42,
-                        fontWeight: FontWeight.w600,
+
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                body: Stack(
+                  alignment: AlignmentDirectional.bottomCenter,
+                  children: [
+                    const SizedBox(height: double.infinity),
+
+                    Positioned(
+                      top: 30,
+                      left: 0,
+                      right: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            // Warning : duplicate with GameViewLarge
+                            viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
+                            style: GoogleFonts.shadowsIntoLight().copyWith(
+                              color: ColorTheme.theme.onBackground,
+                              fontSize: 42,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -109,7 +133,5 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
             ),
           ),
         ),
-      ],
-    );
-  }
+      );
 }
