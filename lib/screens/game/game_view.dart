@@ -16,8 +16,8 @@ class GameView extends StatelessWidget {
     return ViewModelBuilder<GameViewModel>.reactive(
       viewModelBuilder: () => sl<GameViewModel>()..initGame(),
       builder: (context, viewModel, child) => ResponsiveLayoutBuilder(
-        smallScreenBuilder: (context) => GameViewSmall(viewModel: viewModel),
-        largeScreenBuilder: (context) => GameViewLarge(viewModel: viewModel),
+        smallScreenBuilder: (context) => const GameViewSmall(),
+        largeScreenBuilder: (context) => const GameViewLarge(),
       ),
     );
   }

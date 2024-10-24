@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/services/appwrite_service.dart';
+import 'package:askinator/services/shared_preferences_service.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rive/rive.dart';
@@ -11,9 +12,12 @@ import 'package:uuid/uuid.dart';
 @injectable
 class GameViewModel extends BaseViewModel {
   final AppwriteService _appwriteService = sl<AppwriteService>();
+  final SharedPreferencesService _sharedPreferenceService = sl<SharedPreferencesService>();
 
   static const String _successMessage = 'Yes ! You won 🎉';
   static const String lastMessageKey = 'lastMessageKey';
+
+  bool get hasMadeTutorial => _sharedPreferenceService.hasMadeTutorial;
 
   String lastMessage = ''; // Used to fill the ChatBubble
   bool gameSuccess = false;
@@ -22,10 +26,35 @@ class GameViewModel extends BaseViewModel {
 
   late int _gameSeed;
 
+  int _numberOfQuestionsAsked = 0;
+  int _secondsSinceGameStart = 0;
+
   SMITrigger? _toBat;
   SMITrigger? _reset;
 
-  void initGame() {
+  Future makeCharacterIntroduction() async {
+    final sentences = [
+      'Hello!\nI am Ask-inator',
+      'You\'ll be cursed if you don\'t guess the right answer',
+      'But don\'t worry, I\'ll help you by answering\nYES or NO',
+      'Let\'s start!\n Type your first question',
+    ];
+
+    for (final sentence in sentences) {
+      lastMessage = sentence;
+      _addMessage(sentence, isUserMessage: false);
+      await Future.delayed(const Duration(seconds: 3));
+    }
+  }
+
+  Future initGame() async {
+    _sharedPreferenceService.resetHasMadeTutorial();
+
+    if (!hasMadeTutorial) {
+      await makeCharacterIntroduction();
+      await _sharedPreferenceService.setHasMadeTutorial(true);
+    }
+
     _gameSeed = Random().nextInt(4294967296); // 2^32
     messages = [];
     gameSuccess = false;
@@ -53,7 +82,10 @@ class GameViewModel extends BaseViewModel {
 
     _addMessage(question, isUserMessage: true);
 
-    String answer = await runBusyFuture(_appwriteService.askQuestion(question, _gameSeed), busyObject: lastMessageKey);
+    String answer = await runBusyFuture(
+      _appwriteService.askQuestion(question, _gameSeed),
+      busyObject: lastMessageKey,
+    );
     answer = _sanitizeAnswer(answer);
 
     lastMessage = answer;

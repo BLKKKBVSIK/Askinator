@@ -8,8 +8,6 @@ import 'package:askinator/screens/shared/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mesh_gradient/mesh_gradient.dart';
 
 class ChatSheet extends StatelessWidget {
   const ChatSheet({super.key, required this.gameViewModel});

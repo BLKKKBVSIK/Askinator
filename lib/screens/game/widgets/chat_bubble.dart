@@ -14,17 +14,29 @@ class ChatBubble extends StatelessWidget {
     if (!gameViewModel.busy(GameViewModel.lastMessageKey)) {
       if (gameViewModel.lastMessage.isEmpty) return const SizedBox();
 
-      return _buildBubble(
-        child: Center(
+      final tenPercentWidth = MediaQuery.of(context).size.width * 0.1;
+
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: tenPercentWidth),
+        child: _buildBubble(
           child: Text(
             gameViewModel.lastMessage,
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
           ),
         ),
       );
     }
 
-    return _buildBubble(child: Lottie.asset('assets/loading.lottie', decoder: customDecoder));
+    return _buildBubble(
+        child: SizedBox(
+      height: 50,
+      width: 100,
+      child: Lottie.asset(
+        'assets/loading.lottie',
+        decoder: customDecoder,
+      ),
+    ));
   }
 
   Widget _buildBubble({required Widget child}) => CustomPaint(
@@ -33,9 +45,12 @@ class ChatBubble extends StatelessWidget {
           strokeColor: ColorTheme.theme.primary,
         ),
         child: Container(
-          padding: const EdgeInsets.only(left: 36.0, right: 36, bottom: 24, top: 24 + ChatBubblePainter.triangleHeight),
-          height: 100,
-          width: 200,
+          padding: const EdgeInsets.only(
+            left: 36.0,
+            right: 36,
+            bottom: 24,
+            top: 24 + ChatBubblePainter.triangleHeight,
+          ),
           child: child,
         ),
       );
