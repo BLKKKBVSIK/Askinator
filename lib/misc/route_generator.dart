@@ -31,20 +31,7 @@ class RouteGenerator {
 
                 return FadeTransition(
                   opacity: curvedAnimation,
-                  child: ColoredBox(
-                    color: Colors.black,
-                    child: SizedBox.expand(
-                      child: Container(
-                        height: 200,
-                        width: 200,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.transparent,
-                        ),
-                        child: const SizedBox.expand(),
-                      ),
-                    ),
-                  ),
+                  child: const ColoredBox(color: Colors.black, child: SizedBox.expand()),
                 );
               }
 
