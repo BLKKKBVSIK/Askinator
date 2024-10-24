@@ -107,7 +107,9 @@ class GameViewModel extends BaseViewModel {
         ),
       );
     } else {
-      messages[0] = TextMessage(author: const User(id: 'askinator'), id: messages.first.id, text: content);
+      if (messages.firstOrNull?.id != null) {
+        messages[0] = TextMessage(author: const User(id: 'askinator'), id: messages.firstOrNull!.id, text: content);
+      }
     }
 
     notifyListeners();

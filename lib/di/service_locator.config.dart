@@ -10,12 +10,12 @@ import 'package:injectable/injectable.dart' as _i2;
 
 import '../screens/game/game_viewmodel.dart' as _i4;
 import '../screens/home/home_viewmodel.dart' as _i5;
-
 import '../screens/leaderboard/leaderboard_viewmodel.dart' as _i6;
-import '../screens/splash/splash_viewmodel.dart' as _i8;
+import '../screens/splash/splash_viewmodel.dart' as _i9;
 import '../services/appwrite_service.dart' as _i3;
-import '../services/navigation_service.dart'
-    as _i7; // ignore_for_file: unnecessary_lambdas
+import '../services/navigation_service.dart' as _i7;
+import '../services/shared_preferences_service.dart'
+    as _i8; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -32,9 +32,10 @@ _i1.GetIt $initGetIt(
   gh.lazySingleton<_i3.AppwriteService>(() => _i3.AppwriteService());
   gh.factory<_i4.GameViewModel>(() => _i4.GameViewModel());
   gh.factory<_i5.HomeViewModel>(() => _i5.HomeViewModel());
-
   gh.factory<_i6.LeaderboardViewModel>(() => _i6.LeaderboardViewModel());
   gh.lazySingleton<_i7.NavigationService>(() => _i7.NavigationService());
-  gh.lazySingleton<_i8.SplashViewModel>(() => _i8.SplashViewModel());
+  gh.lazySingleton<_i8.SharedPreferencesService>(
+      () => _i8.SharedPreferencesService());
+  gh.lazySingleton<_i9.SplashViewModel>(() => _i9.SplashViewModel());
   return get;
 }
