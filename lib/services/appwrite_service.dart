@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/enums.dart';
 import 'package:appwrite/models.dart';
+import 'package:askinator/models/leaderboard_entry.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uuid/uuid.dart';
@@ -73,18 +75,27 @@ class AppwriteService with ListenableServiceMixin {
     );
   }
 
-  Future getLeadderboardData() async {
-    if (isLogIn == false) {
-      return null;
+  Future<List<LeaderboardEntry>> getLeadderboardData() async {
+    if (isLogIn == false) return [];
+
+    try {
+      final database = Databases(_client);
+      final response = await database.listDocuments(
+        databaseId: leaderboardDatabase,
+        collectionId: leaderboardCollection,
+        queries: [
+          Query.limit(10),
+          Query.orderDesc('NumberOfQueryAsked'),
+        ],
+      );
+
+      List<LeaderboardEntry> leaderboardEntries =
+          response.documents.map((e) => LeaderboardEntry.fromMap(e.data)).toList();
+
+      return leaderboardEntries;
+    } on AppwriteException catch (e) {
+      debugPrint(e.message);
+      return [];
     }
-
-    final response = await _databases.listDocuments(
-      databaseId: leaderboardDatabase,
-      collectionId: leaderboardCollection,
-    );
-
-    print(response.documents);
-
-    return response;
   }
 }

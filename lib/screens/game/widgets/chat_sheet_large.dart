@@ -9,6 +9,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
 
+import 'chat_sheet.dart';
+
 class ChatSheetLarge extends StatefulWidget {
   const ChatSheetLarge({super.key, required this.gameViewModel});
 

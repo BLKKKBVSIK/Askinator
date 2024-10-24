@@ -18,8 +18,8 @@ class GameViewSmall extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ColoredBox(
-    color: ColorTheme.theme.backgroundOverlay,
-    child: Stack(
+        color: ColorTheme.theme.backgroundOverlay,
+        child: Stack(
           children: [
             const Positioned(
               top: 0,
@@ -73,15 +73,18 @@ class GameViewSmall extends StatelessWidget {
                       right: 0,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                        child: Text(
-                          // Warning : duplicate with GameViewLarge
-                          viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
-                          style: GoogleFonts.shadowsIntoLight().copyWith(
-                            color: ColorTheme.theme.onBackground,
-                            fontSize: 42,
-                            fontWeight: FontWeight.w600,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            // Warning : duplicate with GameViewLarge
+                            viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
+                            style: GoogleFonts.shadowsIntoLight().copyWith(
+                              color: ColorTheme.theme.onBackground,
+                              fontSize: 42,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
@@ -112,5 +115,5 @@ class GameViewSmall extends StatelessWidget {
             ),
           ],
         ),
-  );
+      );
 }
