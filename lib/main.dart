@@ -20,7 +20,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  unawaited(RiveFile.initialize());
+
+  await RiveFile.initialize();
 
   runApp(const MyApp());
 }
