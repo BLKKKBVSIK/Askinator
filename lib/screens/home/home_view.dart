@@ -23,6 +23,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   static const double _batDimension = 300;
+  static const _batSpeed = 0.6; // px/ms
 
   bool goToLeft = false;
 
@@ -37,11 +38,16 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     ..addStatusListener((status) async {
       if (AnimationStatus.completed != status) return;
 
-      await Future.delayed(const Duration(milliseconds: 400));
+      // Random delay between each bat apparition
+      await Future.delayed(Duration(milliseconds: 200 + Random().nextInt(1200)));
 
       goToLeft = !goToLeft;
-      _offsetAnimation = _newRandomAnimation();
 
+      final record = _newRandomAnimation();
+      _offsetAnimation = record.$1;
+      final distanceTravelled = record.$2;
+
+      _animationController.duration = Duration(milliseconds: (distanceTravelled / _batSpeed).toInt());
       _animationController.forward(from: 0);
     });
 
@@ -49,25 +55,31 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     parent: _animationController,
     curve: Curves.slowMiddle,
   ).drive(Tween(
+    // Initial animation
     begin: Offset(-_batDimension, MediaQuery.sizeOf(context).height),
     end: Offset(MediaQuery.sizeOf(context).width, -_batDimension),
   ));
 
-  Animation<Offset> _newRandomAnimation() => CurvedAnimation(
+  (Animation<Offset>, double distance) _newRandomAnimation() {
+    final tween = Tween(
+      begin: Offset(
+        goToLeft ? MediaQuery.sizeOf(context).width : -_batDimension,
+        MediaQuery.sizeOf(context).height * (1 - (Random().nextDouble() / 2)),
+      ),
+      end: Offset(
+        goToLeft ? -_batDimension : MediaQuery.sizeOf(context).width,
+        -_batDimension + (MediaQuery.sizeOf(context).height * Random().nextDouble() / 2),
+      ),
+    );
+
+    return (
+      CurvedAnimation(
         parent: _animationController,
         curve: Curves.slowMiddle,
-      ).drive(
-        Tween(
-          begin: Offset(
-            goToLeft ? MediaQuery.sizeOf(context).width : -_batDimension,
-            MediaQuery.sizeOf(context).height * (1 - (Random().nextDouble() / 2)),
-          ),
-          end: Offset(
-            goToLeft ? -_batDimension : MediaQuery.sizeOf(context).width,
-            -_batDimension + (MediaQuery.sizeOf(context).height * Random().nextDouble() / 2),
-          ),
-        ),
-      );
+      ).drive(tween),
+      (tween.end! - tween.begin!).distance
+    );
+  }
 
   @override
   void initState() {
@@ -86,8 +98,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // print('(${_xAnimation.value}, ${_yAnimation.value}');
-
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => sl<HomeViewModel>(),
       builder: (context, viewModel, child) => Stack(
