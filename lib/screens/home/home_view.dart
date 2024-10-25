@@ -131,7 +131,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                             shadows: [
                               BoxShadow(
                                 color: ColorTheme.theme.background,
-                                blurRadius: 60,
+                                blurRadius: kIsWeb ? 8 : 60,
                               ),
                             ],
                           ),
@@ -149,7 +149,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                             shadows: [
                               BoxShadow(
                                 color: ColorTheme.theme.secondaryVariant,
-                                blurRadius: 40.0,
+                                blurRadius: kIsWeb ? 8 : 40,
                               ),
                             ],
                           ),
