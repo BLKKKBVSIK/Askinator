@@ -6,6 +6,7 @@ import 'package:askinator/misc/color_theme.dart';
 import 'package:askinator/misc/responsive_layout_builder.dart';
 import 'package:askinator/screens/home/home_viewmodel.dart';
 import 'package:askinator/screens/shared/gradient_button.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart' hide RadialGradient;
@@ -21,69 +22,66 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
-  static const _animationDuration = Duration(seconds: 3);
-
-  late final AnimationController _yAnimationController = AnimationController(
-    duration: _animationDuration,
-    vsync: this,
-    value: 0.5, //MediaQuery.sizeOf(context).height * 0.5 - (_batDimension / 2),
-  );
-
-  late final Animation<double> _yAnimation = Tween(
-    begin: -_batDimension,
-    end: MediaQuery.sizeOf(context).height,
-  ).animate(
-    CurvedAnimation(
-      parent: _yAnimationController,
-      curve: Curves.easeInOut,
-    ),
-  )..addListener(() {
-      setState(() {});
-    });
-
-  late final AnimationController _xAnimationController = AnimationController(
-    duration: _animationDuration,
-    vsync: this,
-    value: 0.5, // MediaQuery.sizeOf(context).height * 0.5 - (_batDimension / 2),
-  );
-
-  late final Animation<double> _xAnimation =
-      Tween(begin: -_batDimension, end: MediaQuery.sizeOf(context).width).animate(CurvedAnimation(
-    parent: _xAnimationController,
-    curve: Curves.easeInOut,
-  ))
-        ..addListener(() {
-          setState(() {});
-        });
-
+  static const double _batDimension = 300;
 
   bool goToLeft = false;
 
-  static const double _batDimension = 300;
+  late final AnimationController _animationController = AnimationController(
+    duration: const Duration(seconds: 3),
+    vsync: this,
+    value: 0.5,
+  )
+    ..addListener(() {
+      setState(() {});
+    })
+    ..addStatusListener((status) async {
+      if (AnimationStatus.completed != status) return;
 
-  void _animatePosition() {
-    print('launching animation');
+      await Future.delayed(const Duration(milliseconds: 400));
 
-    _xAnimationController.value = goToLeft ? -_batDimension : MediaQuery.sizeOf(context).width;
-    _xAnimationController.animateTo(goToLeft ? MediaQuery.sizeOf(context).width : -_batDimension);
+      goToLeft = !goToLeft;
+      _offsetAnimation = _newRandomAnimation();
 
-    _yAnimationController.value =
-        MediaQuery.sizeOf(context).height - ((MediaQuery.sizeOf(context).height / 2) * Random().nextDouble());
-    _yAnimationController.animateTo(-_batDimension + ((MediaQuery.sizeOf(context).height / 2) * Random().nextDouble()));
+      _animationController.forward(from: 0);
+    });
 
-    goToLeft = !goToLeft;
-  }
+  late Animation<Offset> _offsetAnimation = CurvedAnimation(
+    parent: _animationController,
+    curve: Curves.slowMiddle,
+  ).drive(Tween(
+    begin: Offset(-_batDimension, MediaQuery.sizeOf(context).height),
+    end: Offset(MediaQuery.sizeOf(context).width, -_batDimension),
+  ));
+
+  Animation<Offset> _newRandomAnimation() => CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.slowMiddle,
+      ).drive(
+        Tween(
+          begin: Offset(
+            goToLeft ? MediaQuery.sizeOf(context).width : -_batDimension,
+            MediaQuery.sizeOf(context).height * (1 - (Random().nextDouble() / 2)),
+          ),
+          end: Offset(
+            goToLeft ? -_batDimension : MediaQuery.sizeOf(context).width,
+            -_batDimension + (MediaQuery.sizeOf(context).height * Random().nextDouble() / 2),
+          ),
+        ),
+      );
 
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      _xAnimationController.animateTo(goToLeft ? MediaQuery.sizeOf(context).width : -_batDimension);
-      _yAnimationController.animateTo(-_batDimension + ((MediaQuery.sizeOf(context).height / 2) * Random().nextDouble()));
-
-      Timer.periodic(_animationDuration + const Duration(milliseconds: 500), (_) => _animatePosition());
+    Future.delayed(const Duration(milliseconds: 500), () {
+      _animationController.forward();
     });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -169,15 +167,18 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                         ),
                       ),
                       SizedBox(height: MediaQuery.sizeOf(context).height * .07),
-                      TextButton(
-                        onPressed: viewModel.navigateToCreditsView,
-                        child: Text(
-                          'Credits',
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                color: Colors.white,
-                                decoration: TextDecoration.underline,
-                                decorationColor: Colors.white,
-                              ),
+                      Padding(
+                        padding: kIsWeb ? const EdgeInsets.symmetric(vertical: 36) : EdgeInsets.zero,
+                        child: TextButton(
+                          onPressed: viewModel.navigateToCreditsView,
+                          child: Text(
+                            'Credits',
+                            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.white,
+                                ),
+                          ),
                         ),
                       ),
                     ],
@@ -187,8 +188,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
             ),
           ),
           Positioned(
-            left: _xAnimation.value,
-            top: _yAnimation.value,
+            left: _offsetAnimation.value.dx,
+            top: _offsetAnimation.value.dy,
             child: SizedBox.square(
               dimension: _batDimension,
               child: Transform.flip(
