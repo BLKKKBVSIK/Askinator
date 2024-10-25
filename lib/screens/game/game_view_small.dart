@@ -1,3 +1,4 @@
+import 'package:askinator/screens/splash/splash_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:askinator/screens/game/widgets/animated_moon.dart';
 import 'package:askinator/screens/game/widgets/chat_bubble.dart';
@@ -6,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart' hide RadialGradient;
 import 'package:stacked_hooks/stacked_hooks.dart';
 
+import '../../di/service_locator.dart';
 import '../../misc/color_theme.dart';
 import 'game_view.dart';
 import 'game_viewmodel.dart';
@@ -94,8 +96,8 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
                     left: -42,
                     right: 0,
                     bottom: 0,
-                    child: RiveAnimation.asset(
-                      'assets/bat.riv',
+                    child: RiveAnimation.direct(
+                      sl<SplashViewModel>().batFile,
                       onInit: (artboard) => GameView.onRiveInit(artboard, viewModel),
                     ),
                   ),

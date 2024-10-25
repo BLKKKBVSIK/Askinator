@@ -12,13 +12,19 @@ class SplashViewModel extends BaseViewModel {
   final NavigationService _navigationService = sl<NavigationService>();
 
   late final RiveFile batFile;
+  late final Future<void> _batLoadingFuture;
 
-  void init() async {
-    final data = await rootBundle.load('assets/bat.riv');
-     batFile = RiveFile.import(data);
+  void init() {
+    _batLoadingFuture = rootBundle.load('assets/bat.riv').then((data) {
+      batFile = RiveFile.import(data);
+    });
   }
 
-  void navigateToHomeView() {
+  void onAnimationCompleted(VoidCallback hideLoading) async {
+    // prevent going on next screen while the bat rive file isn't loaded
+    await _batLoadingFuture;
+
+    hideLoading();
     _navigationService.navigateTo(Routes.homeView);
   }
 }

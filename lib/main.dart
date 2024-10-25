@@ -6,10 +6,13 @@ import 'package:askinator/services/navigation_service.dart';
 import 'package:askinator/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  GoogleFonts.config.allowRuntimeFetching = false;
+
   await setupDependencyInjection();
   // await sl<AppwriteService>().signInAnonymously();
   await sl<SharedPreferencesService>().init();
@@ -17,7 +20,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  unawaited(RiveFile.initialize());
+
+  await RiveFile.initialize();
 
   runApp(const MyApp());
 }

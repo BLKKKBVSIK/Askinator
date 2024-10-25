@@ -22,6 +22,7 @@ class GradientButton extends StatelessWidget {
         options: AnimatedMeshGradientOptions(frequency: 2, speed: 2),
         child: OutlinedButton(
           onPressed: onPressed,
+          style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.white, width: 1.5)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
             child: Text(
