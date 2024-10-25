@@ -79,6 +79,11 @@ class CreditsView extends StatelessWidget {
                             style: _textStyle(context),
                             textAlign: TextAlign.center,
                           ),
+                          Text(
+                            'Fonts from Google Fonts',
+                            style: _textStyle(context),
+                            textAlign: TextAlign.center,
+                          ),
                         ],
                       ),
                     ),
