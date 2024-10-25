@@ -52,10 +52,11 @@ class SplashViewState extends State<SplashView> {
                   height: _circleSize,
                   width: _circleSize,
                   onEnd: () {
-                    setState(() {
-                      _showPumpkinLoader = false;
+                    viewModel.onAnimationCompleted(() {
+                      setState(() {
+                        _showPumpkinLoader = false;
+                      });
                     });
-                    viewModel.navigateToHomeView();
                   },
                 ),
               ),
