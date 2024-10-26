@@ -26,6 +26,7 @@ dependencies:
   stacked_hooks: ^0.2.4
   uuid: ^4.5.1
   just_audio: ^0.9.41
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   build_runner: ^2.2.1
