@@ -32,6 +32,7 @@ class SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<SplashViewModel>.nonReactive(
       viewModelBuilder: () => sl<SplashViewModel>()..init(),
+      disposeViewModel: false,
       builder: (context, viewModel, child) => ColoredBox(
         color: Colors.white,
         child: Stack(

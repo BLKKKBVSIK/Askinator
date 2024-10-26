@@ -6,10 +6,11 @@ import 'package:askinator/misc/color_theme.dart';
 import 'package:askinator/misc/responsive_layout_builder.dart';
 import 'package:askinator/screens/home/home_viewmodel.dart';
 import 'package:askinator/screens/shared/gradient_button.dart';
+import 'package:askinator/screens/shared/sound_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rive/rive.dart' hide RadialGradient;
+import 'package:rive/rive.dart' hide RadialGradient, Image;
 import 'package:stacked/stacked.dart';
 
 import '../splash/splash_viewmodel.dart';
@@ -100,6 +101,11 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => sl<HomeViewModel>(),
+      onViewModelReady: (viewModel) {
+        if (kIsWeb) return;
+
+        sl<SplashViewModel>().playMusic();
+      },
       builder: (context, viewModel, child) => Stack(
         children: [
           Container(
@@ -122,20 +128,31 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Askinator',
-                          style: GoogleFonts.shadowsIntoLight().copyWith(
-                            color: Colors.white,
-                            fontSize: 56,
-                            fontWeight: FontWeight.w500,
-                            shadows: [
-                              BoxShadow(
-                                color: ColorTheme.theme.background,
-                                blurRadius: kIsWeb ? 8 : 60,
+                        child: Row(
+                          children: [
+                            const Spacer(),
+                            Text(
+                              'Askinator',
+                              style: GoogleFonts.shadowsIntoLight().copyWith(
+                                color: Colors.white,
+                                fontSize: 56,
+                                fontWeight: FontWeight.w500,
+                                shadows: [
+                                  BoxShadow(
+                                    color: ColorTheme.theme.background,
+                                    blurRadius: kIsWeb ? 8 : 60,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          textAlign: TextAlign.center,
+                              textAlign: TextAlign.center,
+                            ),
+                            const Expanded(
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: SoundButton(),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Padding(
