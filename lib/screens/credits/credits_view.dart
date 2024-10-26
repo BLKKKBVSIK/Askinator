@@ -2,14 +2,13 @@ import 'dart:ui';
 
 import 'package:askinator/misc/color_theme.dart';
 import 'package:askinator/misc/responsive_layout_builder.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class CreditsView extends StatelessWidget {
   const CreditsView({super.key});
-
-  TextStyle _textStyle(BuildContext context) =>
-      Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorTheme.theme.background);
 
   @override
   Widget build(BuildContext context) => ColoredBox(
@@ -58,31 +57,76 @@ class CreditsView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            'Project made by \n Enzo Conty and Tanguy Pouriel \n for Appwrite Hacktobersfest 2024.',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: ColorTheme.theme.background),
+                          RichText(
                             textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style:
+                                  Theme.of(context).textTheme.titleLarge!.copyWith(color: ColorTheme.theme.background),
+                              children: <TextSpan>[
+                                const TextSpan(text: 'Project made by \n'),
+                                TextSpan(
+                                  text: 'Enzo Conty',
+                                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                        color: ColorTheme.theme.secondary,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: ColorTheme.theme.secondary,
+                                      ),
+                                  recognizer: TapGestureRecognizer()..onTap = () => launchUrlString('https://www.enzoconty.dev/'),
+                                ),
+                                const TextSpan(text: ' and '),
+                                TextSpan(
+                                  text: 'Tanguy Pouriel \n',
+                                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    color: ColorTheme.theme.secondary,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: ColorTheme.theme.secondary,
+                                  ),
+                                  recognizer: TapGestureRecognizer()..onTap = () => launchUrlString('https://www.malt.fr/profile/tanguypouriel'),
+                                ),
+                                const TextSpan(text: 'for '),
+                                TextSpan(
+                                  text: 'Appwrite Hacktobersfest 2024.',
+                                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    color: ColorTheme.theme.secondary,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: ColorTheme.theme.secondary,
+                                  ),
+                                  recognizer: TapGestureRecognizer()..onTap = () => launchUrlString('https://appwrite.io/'),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 56),
-                          Text(
-                            'Images from Freepik',
-                            style: _textStyle(context),
-                            textAlign: TextAlign.center,
+                          _buildClickableText(
+                            'Images by ',
+                            'Freepik',
+                            context,
+                            textUrlDestination: 'https://fr.freepik.com/',
                           ),
-                          Text(
-                            'Pumpkin animation from LottieFiles',
-                            style: _textStyle(context),
-                            textAlign: TextAlign.center,
+                          _buildClickableText(
+                            'Pumpkin animation by ',
+                            'Fanden Sriwarom',
+                            context,
+                            textUrlDestination: 'https://lottiefiles.com/free-animation/pumpkin-Mx6sqbUljT',
                           ),
-                          Text(
-                            'Dracula character from Rive Community files',
-                            style: _textStyle(context),
-                            textAlign: TextAlign.center,
+                          _buildClickableText(
+                            'Dracula character by ',
+                            'drawsgood',
+                            context,
+                            textUrlDestination: 'https://rive.app/community/files/1299-2499-bat/',
                           ),
-                          Text(
-                            'Fonts from Google Fonts',
-                            style: _textStyle(context),
-                            textAlign: TextAlign.center,
+                          _buildClickableText(
+                            'Font by ',
+                            'Kimberly Geswein',
+                            context,
+                            textUrlDestination: 'https://fonts.google.com/specimen/Shadows+Into+Light',
+                          ),
+                          _buildClickableText(
+                            'Music by ',
+                            'FASSounds',
+                            context,
+                            textUrlDestination:
+                                'https://pixabay.com/music/scary-childrens-tunes-funny-halloween-spooky-horror-background-music-242101/',
                           ),
                         ],
                       ),
@@ -94,4 +138,33 @@ class CreditsView extends StatelessWidget {
           ),
         ),
       );
+
+  Widget _buildClickableText(
+    String text,
+    String clickableText,
+    BuildContext context, {
+    required String textUrlDestination,
+  }) {
+    TextStyle defaultStyle = Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorTheme.theme.background);
+    TextStyle linkStyle = defaultStyle.copyWith(
+      color: ColorTheme.theme.secondary,
+      decoration: TextDecoration.underline,
+      decorationColor: ColorTheme.theme.secondary,
+    );
+
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        style: defaultStyle,
+        children: <TextSpan>[
+          TextSpan(text: text),
+          TextSpan(
+            text: clickableText,
+            style: linkStyle,
+            recognizer: TapGestureRecognizer()..onTap = () => launchUrlString(textUrlDestination),
+          ),
+        ],
+      ),
+    );
+  }
 }

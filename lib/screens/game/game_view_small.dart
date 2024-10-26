@@ -1,3 +1,4 @@
+import 'package:askinator/screens/shared/sound_button.dart';
 import 'package:askinator/screens/splash/splash_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:askinator/screens/game/widgets/animated_moon.dart';
@@ -63,6 +64,8 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                actions: const [SoundButton()],
+                actionsIconTheme: IconThemeData(size: 64),
               ),
               body: Stack(
                 alignment: AlignmentDirectional.bottomCenter,
