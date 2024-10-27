@@ -35,7 +35,7 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
             decoration: BoxDecoration(
               backgroundBlendMode: BlendMode.saturation,
               image: const DecorationImage(
-                image: AssetImage('assets/background.jpg'),
+                image: AssetImage('assets/images/background.jpg'),
                 opacity: 0.4,
                 alignment: Alignment(0.25, 0),
                 fit: BoxFit.fitHeight,
@@ -113,7 +113,7 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
                     ),
                   ),
                   // Prompt + expanding chat
-                  ChatSheet(gameViewModel: viewModel),
+                  const ChatSheet(),
                 ],
               ),
             ),

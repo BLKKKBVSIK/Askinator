@@ -11,6 +11,7 @@ dependencies:
   appwrite: ^13.0.0
   cupertino_icons: ^1.0.6
   collection: ^1.19.1
+  defer_pointer: ^0.0.2
   flutter:
     sdk: flutter
   flutter_chat_types: ^3.6.2
@@ -45,20 +46,12 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/bat.riv
-    - assets/candy.png
-    - assets/candy-rotated.png
-    - assets/background.jpg
-    - assets/home-background.jpg
-    - assets/loading.lottie
-    - assets/medal-first.png
-    - assets/medal-second.png
-    - assets/medal-third.png
-    - assets/pumpkin.lottie
-    - assets/theme.mp3
-    - assets/sound-on.png
-    - assets/sound-off.png
+    - assets/anims/
+    - assets/fonts/
+    - assets/images/
+    - assets/sounds/
     - google_fonts/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -71,8 +64,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
+  fonts:
+    - family: Graveyard
+      fonts:
+        - asset: assets/fonts/graveyard.ttf
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf

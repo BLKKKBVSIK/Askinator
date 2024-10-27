@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/misc/route_generator.dart';
+import 'package:askinator/services/appwrite_service.dart';
 import 'package:askinator/services/navigation_service.dart';
 import 'package:askinator/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ void main() async {
   GoogleFonts.config.allowRuntimeFetching = false;
 
   await setupDependencyInjection();
-  // await sl<AppwriteService>().signInAnonymously();
+  await sl<AppwriteService>().signInAnonymously();
   await sl<SharedPreferencesService>().init();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

@@ -18,14 +18,14 @@ class SplashViewModel extends BaseViewModel {
   late final Future<void> _batLoadingFuture;
   late final Future<void> _playerLoadingFuture;
 
-  void init() async {
-    _batLoadingFuture = rootBundle.load('assets/bat.riv').then((data) {
+  void init() {
+    _batLoadingFuture = rootBundle.load('assets/anims/bat.riv').then((data) {
       batFile = RiveFile.import(data);
     });
 
     audioPlayer = AudioPlayer()..setLoopMode(LoopMode.all);
 
-    _playerLoadingFuture = audioPlayer.setUrl('asset:/assets/theme.mp3');
+    _playerLoadingFuture = audioPlayer.setUrl('asset:/assets/sounds/theme.mp3');
   }
 
   bool isPlayingMusic = false;
@@ -46,7 +46,7 @@ class SplashViewModel extends BaseViewModel {
 
   void onAnimationCompleted(VoidCallback hideLoading) async {
     // prevent going on next screen while the assets files aren't loaded
-    await Future.wait([_batLoadingFuture, _playerLoadingFuture]) ;
+    await Future.wait([_batLoadingFuture, _playerLoadingFuture]);
 
     hideLoading();
     _navigationService.navigateTo(Routes.homeView);

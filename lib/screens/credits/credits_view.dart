@@ -16,7 +16,7 @@ class CreditsView extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: const AssetImage('assets/background.jpg'),
+              image: const AssetImage('assets/images/background.jpg'),
               opacity: 0.7,
               alignment: const Alignment(0.25, 0),
               fit: MediaQuery.sizeOf(context).width > ResponsiveLayoutBuilder.thresholdWidth
@@ -71,27 +71,30 @@ class CreditsView extends StatelessWidget {
                                         decoration: TextDecoration.underline,
                                         decorationColor: ColorTheme.theme.secondary,
                                       ),
-                                  recognizer: TapGestureRecognizer()..onTap = () => launchUrlString('https://www.enzoconty.dev/'),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => launchUrlString('https://www.enzoconty.dev/'),
                                 ),
                                 const TextSpan(text: ' and '),
                                 TextSpan(
                                   text: 'Tanguy Pouriel \n',
                                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: ColorTheme.theme.secondary,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: ColorTheme.theme.secondary,
-                                  ),
-                                  recognizer: TapGestureRecognizer()..onTap = () => launchUrlString('https://www.malt.fr/profile/tanguypouriel'),
+                                        color: ColorTheme.theme.secondary,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: ColorTheme.theme.secondary,
+                                      ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => launchUrlString('https://www.malt.fr/profile/tanguypouriel'),
                                 ),
                                 const TextSpan(text: 'for '),
                                 TextSpan(
                                   text: 'Appwrite Hacktobersfest 2024.',
                                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: ColorTheme.theme.secondary,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: ColorTheme.theme.secondary,
-                                  ),
-                                  recognizer: TapGestureRecognizer()..onTap = () => launchUrlString('https://appwrite.io/'),
+                                        color: ColorTheme.theme.secondary,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: ColorTheme.theme.secondary,
+                                      ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => launchUrlString('https://appwrite.io/'),
                                 ),
                               ],
                             ),

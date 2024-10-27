@@ -111,7 +111,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: const AssetImage('assets/home-background.jpg'),
+                image: const AssetImage('assets/images/home-background.jpg'),
                 fit: MediaQuery.sizeOf(context).width > ResponsiveLayoutBuilder.thresholdWidth
                     ? BoxFit.cover
                     : BoxFit.fitHeight,

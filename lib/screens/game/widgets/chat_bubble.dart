@@ -33,7 +33,7 @@ class ChatBubble extends StatelessWidget {
         height: 50,
         width: 100,
         child: Lottie.asset(
-          'assets/loading.lottie',
+          'assets/anims/loading.lottie',
           decoder: customDecoder,
         ),
       ),

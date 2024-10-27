@@ -49,13 +49,19 @@ class AppwriteService with ListenableServiceMixin {
 
   Future<Session?> signInAnonymously() async {
     // Throws exception quand la session expire (cad ?) (401)
-    _session = await Account(_client).getSession(sessionId: 'current');
+    try {
+      _session = await Account(_client).getSession(sessionId: 'current');
+    } catch (e) {
+      AppwriteException appwriteException = e as AppwriteException;
+      if (appwriteException.code == 401) {
+        _session = null;
+      }
+    }
     _session ??= await Account(_client).createAnonymousSession();
-
     return _session;
   }
 
-  Future addScoreToLeaderboard(String playerName, int score, int timeInSeconds) async {
+  Future addScoreToLeaderboard(String playerName, int score) async {
     if (isLogIn == false) {
       return null;
     }
@@ -69,8 +75,7 @@ class AppwriteService with ListenableServiceMixin {
       documentId: documentId,
       data: {
         'PlayerName': playerName,
-        'NumberOfQueryAsked': score,
-        'GameTimeInSeconds': timeInSeconds,
+        'score': score,
       },
     );
   }
@@ -85,7 +90,7 @@ class AppwriteService with ListenableServiceMixin {
         collectionId: leaderboardCollection,
         queries: [
           Query.limit(10),
-          Query.orderDesc('NumberOfQueryAsked'),
+          Query.orderAsc('score'),
         ],
       );
 
