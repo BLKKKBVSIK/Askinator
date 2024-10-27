@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/screens/leaderboard/leaderboard_view.dart';
 import 'package:askinator/services/appwrite_service.dart';
@@ -57,7 +58,7 @@ class GameViewModel extends BaseViewModel {
       await _sharedPreferenceService.setHasMadeTutorial(true);
     }
 
-    _gameSeed = 0; //Random().nextInt(4294967296); // 2^32
+    _gameSeed = Random().nextInt(4294967296); // 2^32
     messages = [];
     score = 9999;
     gameSuccess = false;
