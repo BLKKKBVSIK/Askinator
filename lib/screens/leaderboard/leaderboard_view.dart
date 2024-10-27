@@ -86,56 +86,6 @@ class LeaderboardView extends StatelessWidget {
                                 padding: const EdgeInsets.all(24),
                                 child: Column(
                                   children: [
-                                    SizedBox(
-                                      child: Align(
-                                        alignment: const Alignment(0, .5),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: ColorTheme.theme.primary.withOpacity(0.8),
-                                                borderRadius: BorderRadius.circular(36),
-                                              ),
-                                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                                              child: Text(
-                                                '4th',
-                                                style: GoogleFonts.shadowsIntoLight().copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 36,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: ColorTheme.theme.background.withOpacity(0.7),
-                                                borderRadius: BorderRadius.circular(36),
-                                              ),
-                                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Image.asset(
-                                                    width: 45,
-                                                    'assets/images/candy-rotated.png',
-                                                    semanticLabel: 'score icon',
-                                                  ),
-                                                  const SizedBox(width: 4),
-                                                  Text(
-                                                    '200',
-                                                    style: GoogleFonts.shadowsIntoLight().copyWith(
-                                                      color: Colors.white,
-                                                      fontSize: 36,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
                                     Container(
                                       width: MediaQuery.sizeOf(context).width > ResponsiveLayoutBuilder.thresholdWidth
                                           ? MediaQuery.sizeOf(context).width * 0.7
@@ -154,15 +104,10 @@ class LeaderboardView extends StatelessWidget {
                                         itemBuilder: (context, index) {
                                           final entry = viewModel.leaderboardEntries.elementAtOrNull(index);
 
-                                          bool isSelf = index == 3;
-
                                           if (entry == null) return const SizedBox();
 
                                           return Container(
                                             decoration: BoxDecoration(
-                                              color: isSelf
-                                                  ? ColorTheme.theme.primary.withOpacity(0.9)
-                                                  : Colors.transparent,
                                               borderRadius: BorderRadius.circular(30),
                                             ),
                                             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
