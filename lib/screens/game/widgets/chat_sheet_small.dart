@@ -74,7 +74,10 @@ class ChatSheetSmallState extends State<ChatSheetSmall> with TickerProviderState
                 Padding(
                   padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
                   child: widget.gameViewModel.gameSuccess
-                      ? GradientButton(onPressed: widget.gameViewModel.initGame)
+                      ? GradientButton(
+                          onPressed: widget.gameViewModel.initGame,
+                          label: "Start a new game",
+                        )
                       : Container(
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(Radius.circular(32)),

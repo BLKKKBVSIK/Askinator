@@ -4,9 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
 
 class GradientButton extends StatelessWidget {
-  const GradientButton({super.key, required this.onPressed});
+  const GradientButton({super.key, required this.onPressed, this.label = 'Start a game !', this.fontSize = 30});
 
   final VoidCallback onPressed;
+  final String label;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +28,10 @@ class GradientButton extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
             child: Text(
-              'Start a game !',
+              label,
               style: GoogleFonts.shadowsIntoLight().copyWith(
                 color: Colors.white,
-                fontSize: 30,
+                fontSize: fontSize,
                 fontWeight: FontWeight.w800,
               ),
             ),

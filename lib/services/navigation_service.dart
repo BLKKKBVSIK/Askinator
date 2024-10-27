@@ -1,3 +1,4 @@
+import 'package:askinator/misc/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
@@ -81,21 +82,16 @@ class NavigationService with ListenableServiceMixin {
     navigateToAndReplaceWithArgs(routeName, arguments);
   }
 
-  void popUntil(String routeName) {
-    navigatorKey.currentState!.popUntil((route) {
-      if (route.settings.name == routeName) {
-        return true;
-      }
-      return false;
-    });
+  // Pop screens until home screen
+  void popUntilHome() {
+    navigatorKey.currentState!.popUntil((route) => route.settings.name == Routes.homeView);
   }
 
   // Show a snackbar
   void showSnackbar(String message, {Color backgroundColor = Colors.green}) {
     final snackBar = SnackBar(
       backgroundColor: backgroundColor,
-      content:
-          Text(message, style: Theme.of(navigatorKey.currentState!.context).textTheme.bodyMedium),
+      content: Text(message, style: Theme.of(navigatorKey.currentState!.context).textTheme.bodyMedium),
       duration: const Duration(seconds: 3),
       showCloseIcon: true,
       behavior: SnackBarBehavior.floating,

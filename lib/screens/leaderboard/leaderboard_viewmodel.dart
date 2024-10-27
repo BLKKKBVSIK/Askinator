@@ -1,6 +1,7 @@
 import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/models/leaderboard_entry.dart';
 import 'package:askinator/services/appwrite_service.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
@@ -10,23 +11,26 @@ class LeaderboardViewModel extends BaseViewModel {
 
   List<LeaderboardEntry> leaderboardEntries = [];
 
+  bool hasSendScore = false;
+
+  // Used for writing player name
+  TextEditingController firstCharacterController = TextEditingController();
+  TextEditingController secondCharacterController = TextEditingController();
+  TextEditingController thirdCharacterController = TextEditingController();
+
   Future initialise() async {
-    // leaderboardEntries = await _appwriteService.getLeadderboardData();
-    leaderboardEntries = [
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-      LeaderboardEntry(playerName: 'Enzo', score: 500, durationInSeconds: 120),
-    ];
+    leaderboardEntries = await _appwriteService.getLeadderboardData();
+    notifyListeners();
+  }
+
+  void sendScore(int score) async {
+    final name = firstCharacterController.text + secondCharacterController.text + thirdCharacterController.text;
+
+    print(name);
+
+    await _appwriteService.addScoreToLeaderboard(name, score);
+    hasSendScore = true;
+    initialise();
     notifyListeners();
   }
 }

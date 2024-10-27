@@ -67,7 +67,7 @@ class SplashViewState extends State<SplashView> {
               body: _showPumpkinLoader
                   ? Center(
                       child: Lottie.asset(
-                        'assets/pumpkin.lottie',
+                        'assets/anims/pumpkin.lottie',
                         decoder: customDecoder,
                         width: 128,
                       ),

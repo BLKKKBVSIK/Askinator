@@ -16,8 +16,6 @@ class GameViewLarge extends StackedHookView<GameViewModel> {
 
   @override
   Widget builder(BuildContext context, GameViewModel viewModel) {
-    final double screenHeight = MediaQuery.sizeOf(context).height;
-
     return ColoredBox(
       color: ColorTheme.theme.backgroundOverlay,
       child: Stack(
@@ -39,7 +37,7 @@ class GameViewLarge extends StackedHookView<GameViewModel> {
             decoration: BoxDecoration(
               backgroundBlendMode: BlendMode.saturation,
               image: const DecorationImage(
-                image: AssetImage('assets/background.jpg'),
+                image: AssetImage('assets/images/background.jpg'),
                 opacity: 0.4,
                 fit: BoxFit.cover,
               ),
@@ -59,7 +57,7 @@ class GameViewLarge extends StackedHookView<GameViewModel> {
             decoration: BoxDecoration(
               backgroundBlendMode: BlendMode.saturation,
               image: const DecorationImage(
-                image: AssetImage('assets/background.jpg'),
+                image: AssetImage('assets/images/background.jpg'),
                 opacity: 0.4,
                 fit: BoxFit.cover,
               ),
@@ -104,7 +102,7 @@ class GameViewLarge extends StackedHookView<GameViewModel> {
                           child: Stack(
                             children: [
                               RiveAnimation.asset(
-                                'assets/bat.riv',
+                                'assets/anims/bat.riv',
                                 onInit: (artboard) => GameView.onRiveInit(artboard, viewModel),
                                 alignment: const Alignment(-0.2, -.8),
                                 fit: BoxFit.contain,
@@ -132,9 +130,8 @@ class GameViewLarge extends StackedHookView<GameViewModel> {
                       ],
                     ),
                   ),
-
                   // Prompt + chat
-                  Expanded(child: ChatSheet(gameViewModel: viewModel)),
+                  const Expanded(child: ChatSheet()),
                 ],
               ),
             ),

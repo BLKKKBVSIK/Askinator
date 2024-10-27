@@ -4,7 +4,7 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/enums.dart';
 import 'package:appwrite/models.dart';
 import 'package:askinator/models/leaderboard_entry.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uuid/uuid.dart';
@@ -13,14 +13,18 @@ import '../misc/appwrite_ids.dart';
 
 @lazySingleton
 class AppwriteService with ListenableServiceMixin {
-  static const bool _isDebugEnabled = true;
+  static const bool _isDebugEnabled = kReleaseMode;
 
   Session? _session;
 
   get isLogIn => _session != null;
 
-  late final Client _client =
-      Client().setEndpoint('https://cloud.appwrite.io/v1').setProject(projectId).setSelfSigned(status: _isDebugEnabled);
+  late final Client _client = _isDebugEnabled
+      ? Client().setEndpoint('https://cloud.appwrite.io/v1').setProject(projectId)
+      : Client()
+          .setEndpoint('https://cloud.appwrite.io/v1')
+          .setProject(projectId)
+          .setSelfSigned(status: _isDebugEnabled);
 
   late final Functions _functions = Functions(_client);
   late final Databases _databases = Databases(_client);
@@ -49,13 +53,19 @@ class AppwriteService with ListenableServiceMixin {
 
   Future<Session?> signInAnonymously() async {
     // Throws exception quand la session expire (cad ?) (401)
-    _session = await Account(_client).getSession(sessionId: 'current');
+    try {
+      _session = await Account(_client).getSession(sessionId: 'current');
+    } catch (e) {
+      AppwriteException appwriteException = e as AppwriteException;
+      if (appwriteException.code == 401) {
+        _session = null;
+      }
+    }
     _session ??= await Account(_client).createAnonymousSession();
-
     return _session;
   }
 
-  Future addScoreToLeaderboard(String playerName, int score, int timeInSeconds) async {
+  Future addScoreToLeaderboard(String playerName, int score) async {
     if (isLogIn == false) {
       return null;
     }
@@ -69,8 +79,7 @@ class AppwriteService with ListenableServiceMixin {
       documentId: documentId,
       data: {
         'PlayerName': playerName,
-        'NumberOfQueryAsked': score,
-        'GameTimeInSeconds': timeInSeconds,
+        'score': score,
       },
     );
   }
@@ -85,7 +94,7 @@ class AppwriteService with ListenableServiceMixin {
         collectionId: leaderboardCollection,
         queries: [
           Query.limit(10),
-          Query.orderDesc('NumberOfQueryAsked'),
+          Query.orderAsc('score'),
         ],
       );
 

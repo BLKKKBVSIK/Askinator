@@ -18,7 +18,8 @@ class SoundButton extends StatelessWidget {
             child: Stack(
               children: [
                 Image.asset(
-                  viewModel.isPlayingMusic ? 'assets/sound-on.png' : 'assets/sound-off.png',
+                  viewModel.isPlayingMusic ? 'assets/images/sound-on.png' : 'assets/images/sound-off.png',
+                  semanticLabel: 'Sound button',
                   cacheHeight: 64,
                   cacheWidth: 64,
                 ),
