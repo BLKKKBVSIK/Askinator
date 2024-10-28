@@ -80,15 +80,29 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                       child: FittedBox(
                         fit: BoxFit.contain,
-                        child: Text(
-                          // Warning : duplicate with GameViewLarge
-                          viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
-                          style: GoogleFonts.shadowsIntoLight().copyWith(
-                            color: ColorTheme.theme.onBackground,
-                            fontSize: 42,
-                            fontWeight: FontWeight.w600,
+                        child: AnimatedCrossFade(
+                          duration: const Duration(milliseconds: 800),
+                          crossFadeState: viewModel.showHintAdvice ? CrossFadeState.showSecond :CrossFadeState.showFirst,
+                          firstChild: Text(
+                            // Warning : duplicate with GameViewLarge
+                            viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
+                            style: GoogleFonts.shadowsIntoLight().copyWith(
+                              color: ColorTheme.theme.onBackground,
+                              fontSize: 42,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
+                          secondChild: Text(
+                            // Warning : duplicate with GameViewLarge
+                            'Ask me for a hint if you \nhave some troubles guessing !',
+                            style: GoogleFonts.shadowsIntoLight().copyWith(
+                              color: ColorTheme.theme.onBackground,
+                              fontSize: 36,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),

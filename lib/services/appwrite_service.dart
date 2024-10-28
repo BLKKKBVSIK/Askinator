@@ -29,7 +29,7 @@ class AppwriteService with ListenableServiceMixin {
   late final Functions _functions = Functions(_client);
   late final Databases _databases = Databases(_client);
 
-  Future<String> askQuestion(String question, int seed) async {
+  Future<Map<String, dynamic>> askQuestion(String question, int seed) async {
     final result = await _functions.createExecution(
       functionId: textGenerationFunction,
       body: jsonEncode({
@@ -48,7 +48,7 @@ class AppwriteService with ListenableServiceMixin {
       throw Exception('Unexpected failed response : ${result.responseBody}, ${result.responseStatusCode}');
     }
 
-    return jsonDecode(result.responseBody)['answer'];
+    return jsonDecode(result.responseBody);
   }
 
   Future<Session?> signInAnonymously() async {

@@ -11,6 +11,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:lottie/lottie.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
+import '../../../misc/color_theme.dart';
+
 class ChatSheet extends StackedHookView<GameViewModel> {
   const ChatSheet({super.key});
 
@@ -47,12 +49,13 @@ class ChatSheet extends StackedHookView<GameViewModel> {
                 child: Align(
                   alignment: Alignment.topRight,
                   child: DeferPointer(
-                    child: GradientButton(
-                      fontSize: 22,
-                      onPressed: () async {
-                        await viewModel.postScore();
-                      },
-                      label: "Post your score",
+                    child: ElevatedButton(
+                      // fontSize: 22,
+                      onPressed: viewModel.postScore,
+                      child: Text(
+                        "Post your score",
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorTheme.theme.primary),
+                      ),
                     ),
                   ),
                 ),
