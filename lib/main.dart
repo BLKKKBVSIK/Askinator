@@ -34,6 +34,15 @@ class MyApp extends StatelessWidget {
       navigatorKey: sl<NavigationService>().navigatorKey,
       title: 'Askinator',
       debugShowCheckedModeBanner: false,
+      // Hide keyboard when tapping outside of text field
+      builder: (context, child) {
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: child,
+        );
+      },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

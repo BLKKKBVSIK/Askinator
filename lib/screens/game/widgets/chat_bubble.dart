@@ -77,7 +77,7 @@ class ChatBubblePainter extends CustomPainter {
   }
 
   static const _radius = 30.0;
-  static const triangleHeight = 15.0;
+  static const triangleHeight = -15.0;
   static const _triangleWideness = 15.0;
 
   late final _fillPaint = Paint()
@@ -103,9 +103,9 @@ class ChatBubblePainter extends CustomPainter {
     final triangleEndX = size.width / 2 + _triangleWideness;
 
     final trianglePath = Path()
-      ..moveTo(triangleBeginningX, triangleHeight)
-      ..lineTo(size.width / 2, 0)
-      ..lineTo(triangleEndX, triangleHeight);
+      ..moveTo(triangleBeginningX, size.height)
+      ..lineTo(size.width / 2, size.height - triangleHeight)
+      ..lineTo(triangleEndX, size.height);
 
     canvas.drawRRect(rect, _fillPaint);
     canvas.drawPath(trianglePath, _fillPaint);
@@ -115,8 +115,8 @@ class ChatBubblePainter extends CustomPainter {
 
       canvas.drawPath(
         Path()
-          ..moveTo(triangleBeginningX, triangleHeight)
-          ..lineTo(triangleEndX, triangleHeight),
+          ..moveTo(triangleBeginningX, size.height)
+          ..lineTo(triangleEndX, size.height),
         Paint()
           ..strokeWidth = 3
           ..color = fillColor

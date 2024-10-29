@@ -7,7 +7,6 @@ import 'package:askinator/screens/game/widgets/chat_sheet.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart' hide RadialGradient;
 import 'package:stacked_hooks/stacked_hooks.dart';
-
 import '../../di/service_locator.dart';
 import '../../misc/color_theme.dart';
 import 'game_view.dart';
@@ -65,24 +64,43 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
                   textAlign: TextAlign.center,
                 ),
                 actions: const [SoundButton()],
-                actionsIconTheme: IconThemeData(size: 64),
+                actionsIconTheme: const IconThemeData(size: 64),
               ),
               body: Stack(
+                clipBehavior: Clip.none,
                 alignment: AlignmentDirectional.bottomCenter,
                 children: [
                   const SizedBox(height: double.infinity),
-
-                  Positioned(
-                    top: 30,
+                  Positioned.fill(
                     left: 0,
                     right: 0,
+                    bottom: screenHeight * .65,
+                    child: Center(
+                      child: ChatBubble(gameViewModel: viewModel),
+                    ),
+                  ),
+                  Positioned(
+                    top: -140,
+                    left: -42,
+                    right: 0,
+                    bottom: 0 - MediaQuery.viewInsetsOf(context).bottom,
+                    child: RiveAnimation.direct(
+                      sl<SplashViewModel>().batFile,
+                      onInit: (artboard) => GameView.onRiveInit(artboard, viewModel),
+                    ),
+                  ),
+                  Positioned(
+                    top: screenHeight * .55,
+                    right: 0,
+                    left: 0,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                       child: FittedBox(
                         fit: BoxFit.contain,
                         child: AnimatedCrossFade(
                           duration: const Duration(milliseconds: 800),
-                          crossFadeState: viewModel.showHintAdvice ? CrossFadeState.showSecond :CrossFadeState.showFirst,
+                          crossFadeState:
+                              viewModel.showHintAdvice ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                           firstChild: Text(
                             // Warning : duplicate with GameViewLarge
                             viewModel.gameSuccess ? 'Well done ! You pierced my mind !' : 'What am I thinking of ?',
@@ -107,27 +125,8 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
                       ),
                     ),
                   ),
-
-                  Positioned(
-                    top: -140,
-                    left: -42,
-                    right: 0,
-                    bottom: 0,
-                    child: RiveAnimation.direct(
-                      sl<SplashViewModel>().batFile,
-                      onInit: (artboard) => GameView.onRiveInit(artboard, viewModel),
-                    ),
-                  ),
-                  Positioned(
-                    top: screenHeight * .5,
-                    right: 0,
-                    left: 0,
-                    child: Center(
-                      child: ChatBubble(gameViewModel: viewModel),
-                    ),
-                  ),
                   // Prompt + expanding chat
-                  const ChatSheet(),
+                  ChatSheet(),
                 ],
               ),
             ),

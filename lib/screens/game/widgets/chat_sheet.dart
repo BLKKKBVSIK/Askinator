@@ -3,7 +3,6 @@ import 'package:askinator/misc/responsive_layout_builder.dart';
 import 'package:askinator/screens/game/game_viewmodel.dart';
 import 'package:askinator/screens/game/widgets/chat_sheet_large.dart';
 import 'package:askinator/screens/game/widgets/chat_sheet_small.dart';
-import 'package:askinator/screens/shared/gradient_button.dart';
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';

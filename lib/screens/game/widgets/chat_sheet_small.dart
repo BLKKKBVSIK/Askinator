@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:askinator/misc/color_theme.dart';
 import 'package:askinator/screens/game/game_viewmodel.dart';
 import 'package:askinator/screens/game/widgets/chat_sheet.dart';
@@ -129,7 +128,8 @@ class ChatSheetSmallState extends State<ChatSheetSmall> with TickerProviderState
                 SizeTransition(
                   sizeFactor: _animation,
                   child: SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.6,
+                    height: MediaQuery.sizeOf(context).height * .6 -
+                        MediaQuery.viewInsetsOf(Scaffold.of(context).context).bottom,
                     child: Chat(
                       messages: widget.gameViewModel.messages,
                       onSendPressed: (_) {},
@@ -144,6 +144,7 @@ class ChatSheetSmallState extends State<ChatSheetSmall> with TickerProviderState
                     ),
                   ),
                 ),
+                //SizedBox(height: MediaQuery.viewInsetsOf(context).bottom),
               ],
             ),
           ),

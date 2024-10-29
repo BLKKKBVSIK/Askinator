@@ -148,7 +148,9 @@ class GameViewLarge extends StackedHookView<GameViewModel> {
                     ),
                   ),
                   // Prompt + chat
-                  const Expanded(child: ChatSheet()),
+                  const Expanded(
+                    child: ChatSheet(),
+                  ),
                 ],
               ),
             ),
