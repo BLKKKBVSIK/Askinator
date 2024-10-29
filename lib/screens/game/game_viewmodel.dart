@@ -48,7 +48,7 @@ class GameViewModel extends BaseViewModel {
   }
 
   Future initGame() async {
-    _sharedPreferenceService.resetHasMadeTutorial();
+    //_sharedPreferenceService.resetHasMadeTutorial();
 
     if (!hasMadeTutorial) {
       await _makeCharacterSpeak([
