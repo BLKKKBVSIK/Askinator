@@ -71,10 +71,10 @@ class GameViewSmall extends StackedHookView<GameViewModel> {
                 alignment: AlignmentDirectional.bottomCenter,
                 children: [
                   const SizedBox(height: double.infinity),
-                  Positioned.fill(
+                  Positioned(
                     left: 0,
+                    top: 40,
                     right: 0,
-                    bottom: screenHeight * .65,
                     child: Center(
                       child: ChatBubble(gameViewModel: viewModel),
                     ),
