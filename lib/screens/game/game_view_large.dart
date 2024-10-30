@@ -1,11 +1,11 @@
 import 'package:askinator/screens/game/widgets/chat_bubble.dart';
+import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:askinator/screens/game/widgets/animated_moon.dart';
 import 'package:askinator/screens/game/widgets/chat_sheet.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart' hide RadialGradient, LinearGradient, Image;
 import 'package:stacked_hooks/stacked_hooks.dart';
-
 import '../../misc/color_theme.dart';
 import '../shared/sound_button.dart';
 import 'game_view.dart';
@@ -116,25 +116,48 @@ class GameViewLarge extends StackedHookView<GameViewModel> {
                           ),
                         ),
                         Expanded(
-                          child: Stack(
-                            children: [
-                              RiveAnimation.asset(
-                                'assets/anims/bat.riv',
-                                onInit: (artboard) => GameView.onRiveInit(artboard, viewModel),
-                                alignment: const Alignment(-0.2, -.8),
-                                fit: BoxFit.contain,
-                              ),
-                              const Positioned(
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                child: Center(
-                                  child: ChatBubble(
-                                    isPointingUp: true,
+                          child: DeferredPointerHandler(
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                RiveAnimation.asset(
+                                  'assets/anims/bat.riv',
+                                  onInit: (artboard) => GameView.onRiveInit(artboard, viewModel),
+                                  alignment: const Alignment(-0.2, -.8),
+                                  fit: BoxFit.contain,
+                                ),
+                                const Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Center(
+                                    child: ChatBubble(
+                                      isPointingUp: true,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                if (viewModel.gameSuccess)
+                                  Positioned(
+                                    bottom: -50,
+                                    left: 0,
+                                    right: 0,
+                                    child: Center(
+                                      child: DeferPointer(
+                                        child: ElevatedButton(
+                                          onPressed: viewModel.postScore,
+                                          child: Text(
+                                            "Post your score",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall!
+                                                .copyWith(color: ColorTheme.theme.primary),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
                         const SizedBox(

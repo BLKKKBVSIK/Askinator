@@ -191,6 +191,7 @@ class LeaderboardView extends StatelessWidget {
                 if (score != null && !viewModel.hasSendScore)
                   Positioned(
                     child: Container(
+                      width: MediaQuery.sizeOf(context).width,
                       height: MediaQuery.sizeOf(context).height,
                       color: Colors.black.withOpacity(.7),
                       child: Padding(
