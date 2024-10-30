@@ -2,7 +2,7 @@
 
 - [Askinator](#askinator)
 - [Current architecture](#current-architecture)
-- [Initialisation/Requirement](#initialisation-requirement)
+- [Initialization/Requirement](#initialization-requirement)
 
 
 ### Askinator
@@ -14,14 +14,14 @@ But beware—the AI can only answer 'Yes' or 'No'!
 [![Watch the video](https://github.com/user-attachments/assets/f78148e4-aa37-4826-a132-15505a11604d)](https://www.youtube.com/watch?v=pXO6IXGCl1s)
 
 You can see the promo video by clicking [this link](https://www.youtube.com/watch?v=pXO6IXGCl1s).  
-You can also play the game with this link on your browser (https://askinator-c6fe5.web.app)
+You can also play the game with this link in your browser (https://askinator-c6fe5.web.app)
 
 ### Current architecture
 
 The project is made using [Flutter](https://flutter.dev/) a Google UI framework created in 2017.
 It uses the Google language Dart created in 2011, [Dart](https://dartlang.org/).
 
-The application is based on a MVVM architecture using [Stacked](https://pub.dev/packages/stacked) by FilledStacks as a state management.
+The application is based on an MVVM architecture using [Stacked](https://pub.dev/packages/stacked) by FilledStacks as a state management.
 The usage of [Stacked](https://pub.dev/packages/stacked) is for maintainability and readability.
  [Stacked](https://pub.dev/packages/stacked) uses implicitly the [Provider](https://pub.dev/packages/provider) package.  
 The main idea is to use an MVVM pattern to remove any business logic from the UI layouts by putting this logic in a separated view model. This adds more clarity and maintainability.
@@ -39,9 +39,9 @@ The ViewModel class can extend different types of abstract ViewModels such as:
 
 - [BaseViewModel](https://github.com/Stacked-Org/stacked/blob/master/README_old.md#baseviewmodel-functionality)
 - [ReactiveViewModel](https://github.com/Stacked-Org/stacked/blob/master/README_old.md#reactiveviewmodel)
-- And many more, but we mostly use those ones, you can refer to the [stacked documentation](https://pub.dev/documentation/stacked/latest/stacked/stacked-library.html#classes)
+- And many more, but we mostly use those, you can refer to the [stacked documentation](https://pub.dev/documentation/stacked/latest/stacked/stacked-library.html#classes)
 
-The ViewModel data-bind all the data from the services and models and create getters for the view and notify the view of any changes (using a ReactiveServiceMixin or a NotifyListeners)
+The ViewModel data-bind all the data from the services and models, create getters for the view, and notifies the view of any changes (using a ReactiveServiceMixin or a NotifyListeners)
 
 The project utilizes [AppWrite.io](https://appwrite.io/) as a cloud backend to handle:
 
@@ -51,7 +51,7 @@ The project utilizes [AppWrite.io](https://appwrite.io/) as a cloud backend to h
   
 This integration allows the app to offer a seamless, interactive experience by handling backend processing efficiently, while Hugging Face provides the natural language processing capability for AI responses.
 
-### Initialisation Requirement
+### Initialization Requirement
 
 1) Install the Flutter SDK following the [official documentation](https://flutter.dev/docs/get-started/install)
 Then use the `flutter doctor` to verify your install
