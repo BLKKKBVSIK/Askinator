@@ -3,24 +3,26 @@ import 'package:askinator/misc/lottie_decoder.dart';
 import 'package:askinator/screens/game/game_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:stacked_hooks/stacked_hooks.dart';
 
-class ChatBubble extends StatelessWidget {
-  const ChatBubble({super.key, required this.gameViewModel});
+class ChatBubble extends StackedHookView<GameViewModel> {
+  const ChatBubble({super.key, required this.isPointingUp});
 
-  final GameViewModel gameViewModel;
+  final bool isPointingUp;
 
   @override
-  Widget build(BuildContext context) {
-    if (!gameViewModel.busy(GameViewModel.lastMessageKey)) {
-      if (gameViewModel.lastMessage.isEmpty) return const SizedBox();
+  Widget builder(BuildContext context, GameViewModel viewModel) {
+    if (!viewModel.busy(GameViewModel.lastMessageKey)) {
+      if (viewModel.lastMessage.isEmpty) return const SizedBox();
 
       final tenPercentWidth = MediaQuery.sizeOf(context).width * 0.1;
 
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: tenPercentWidth),
         child: _buildBubble(
+          isPointingUp: isPointingUp,
           child: Text(
-            gameViewModel.lastMessage,
+            viewModel.lastMessage,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
           ),
@@ -29,6 +31,7 @@ class ChatBubble extends StatelessWidget {
     }
 
     return _buildBubble(
+      isPointingUp: isPointingUp,
       child: SizedBox(
         height: 50,
         width: 100,
@@ -40,17 +43,18 @@ class ChatBubble extends StatelessWidget {
     );
   }
 
-  Widget _buildBubble({required Widget child}) => CustomPaint(
+  Widget _buildBubble({required Widget child, required bool isPointingUp}) => CustomPaint(
         painter: ChatBubblePainter(
+          isPointingUp: isPointingUp,
           fillColor: ColorTheme.theme.background,
           strokeColor: ColorTheme.theme.primary,
         ),
         child: Container(
-          padding: const EdgeInsets.only(
+          padding: EdgeInsets.only(
             left: 36.0,
             right: 36,
             bottom: 24,
-            top: 24 + ChatBubblePainter.triangleHeight,
+            top: isPointingUp ? 24 + 15 : 24 - 15,
           ),
           child: child,
         ),
@@ -60,9 +64,11 @@ class ChatBubble extends StatelessWidget {
 class ChatBubblePainter extends CustomPainter {
   final Color fillColor;
   final Color? strokeColor;
+  final bool isPointingUp;
 
   ChatBubblePainter({
     required this.fillColor,
+    required this.isPointingUp,
     this.strokeColor,
   }) {
     if (strokeColor == null) {
@@ -77,7 +83,7 @@ class ChatBubblePainter extends CustomPainter {
   }
 
   static const _radius = 30.0;
-  static const triangleHeight = -15.0;
+  static double triangleHeight = -15.0;
   static const _triangleWideness = 15.0;
 
   late final _fillPaint = Paint()
@@ -88,6 +94,8 @@ class ChatBubblePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    triangleHeight = isPointingUp ? 15.0 : -15.0;
+
     final rect = RRect.fromLTRBAndCorners(
       0,
       triangleHeight,
@@ -103,9 +111,9 @@ class ChatBubblePainter extends CustomPainter {
     final triangleEndX = size.width / 2 + _triangleWideness;
 
     final trianglePath = Path()
-      ..moveTo(triangleBeginningX, size.height)
-      ..lineTo(size.width / 2, size.height - triangleHeight)
-      ..lineTo(triangleEndX, size.height);
+      ..moveTo(triangleBeginningX, isPointingUp ? triangleHeight : size.height)
+      ..lineTo(size.width / 2, isPointingUp ? 0 : size.height - triangleHeight)
+      ..lineTo(triangleEndX, isPointingUp ? triangleHeight : size.height);
 
     canvas.drawRRect(rect, _fillPaint);
     canvas.drawPath(trianglePath, _fillPaint);
@@ -115,8 +123,8 @@ class ChatBubblePainter extends CustomPainter {
 
       canvas.drawPath(
         Path()
-          ..moveTo(triangleBeginningX, size.height)
-          ..lineTo(triangleEndX, size.height),
+          ..moveTo(triangleBeginningX, isPointingUp ? triangleHeight : size.height)
+          ..lineTo(triangleEndX, isPointingUp ? triangleHeight : size.height),
         Paint()
           ..strokeWidth = 3
           ..color = fillColor

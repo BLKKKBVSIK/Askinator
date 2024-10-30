@@ -124,13 +124,13 @@ class GameViewLarge extends StackedHookView<GameViewModel> {
                                 alignment: const Alignment(-0.2, -.8),
                                 fit: BoxFit.contain,
                               ),
-                              Positioned(
+                              const Positioned(
                                 bottom: 0,
                                 left: 0,
                                 right: 0,
                                 child: Center(
                                   child: ChatBubble(
-                                    gameViewModel: viewModel,
+                                    isPointingUp: true,
                                   ),
                                 ),
                               ),

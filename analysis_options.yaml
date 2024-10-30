@@ -21,6 +21,7 @@ dart_code_metrics:
     - avoid-accessing-collections-by-constant-index: false
     - no-equal-switch-case: false
     - avoid-shadowing: false
+    - no-empty-block: false
     - prefer-match-file-name:
         exclude:
           - lib/main.dart
