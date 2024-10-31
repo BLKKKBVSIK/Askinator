@@ -11,7 +11,8 @@ Askinator, a spooky twist on the classic [Akinator](https://en.akinator.com/) ga
 In this project, the AI has chosen a character, and your goal is to uncover it by asking questions.  
 But beware—the AI can only answer 'Yes' or 'No'!
 
-[![Watch the video](https://github.com/user-attachments/assets/f78148e4-aa37-4826-a132-15505a11604d)](https://www.youtube.com/watch?v=pXO6IXGCl1s)
+[![Watch the video](https://github.com/user-attachments/assets/71dfad97-f872-42a8-b668-e593f5e5a864)](https://www.youtube.com/watch?v=pXO6IXGCl1s)
+[![Watch the video](https://github.com/user-attachments/assets/e5618563-2ef9-417a-ba76-f2054041744b)](https://www.youtube.com/watch?v=pXO6IXGCl1s)
 
 You can see the promo video by clicking [this link](https://www.youtube.com/watch?v=pXO6IXGCl1s).  
 You can also play the game with this link in your browser (https://askinator-c6fe5.web.app)
