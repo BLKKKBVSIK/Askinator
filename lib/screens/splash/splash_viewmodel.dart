@@ -1,5 +1,6 @@
 import 'package:askinator/di/service_locator.dart';
 import 'package:askinator/services/navigation_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:just_audio/just_audio.dart';
@@ -15,17 +16,19 @@ class SplashViewModel extends BaseViewModel {
   late final RiveFile batFile;
   late final AudioPlayer audioPlayer;
 
-  late final Future<void> _batLoadingFuture;
-  late final Future<void> _playerLoadingFuture;
+  late final List<Future> _initFutures = [];
 
-  void init() {
-    _batLoadingFuture = rootBundle.load('assets/anims/bat.riv').then((data) {
-      batFile = RiveFile.import(data);
-    });
-
+  void init(BuildContext context) {
     audioPlayer = AudioPlayer()..setLoopMode(LoopMode.all);
 
-    _playerLoadingFuture = audioPlayer.setUrl('asset:/assets/sounds/theme.mp3');
+    _initFutures.addAll([
+      rootBundle.load('assets/anims/bat.riv').then((data) {
+        batFile = RiveFile.import(data);
+      }),
+      audioPlayer.setUrl('asset:/assets/sounds/theme.mp3'),
+      precacheImage(const AssetImage('assets/images/home-background.jpg'), context),
+      precacheImage(const AssetImage('assets/images/background.jpg'), context),
+    ]);
   }
 
   bool isPlayingMusic = false;
@@ -46,7 +49,7 @@ class SplashViewModel extends BaseViewModel {
 
   void onAnimationCompleted(VoidCallback hideLoading) async {
     // prevent going on next screen while the assets files aren't loaded
-    await Future.wait([_batLoadingFuture, _playerLoadingFuture]);
+    await Future.wait(_initFutures);
 
     hideLoading();
     _navigationService.navigateTo(Routes.homeView);
