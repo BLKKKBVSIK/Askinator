@@ -80,103 +80,95 @@ class LeaderboardView extends StatelessWidget {
                               filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.4),
+                                  color: ColorTheme.theme.primary.withOpacity(0.5),
                                   borderRadius: BorderRadius.circular(36),
+                                  border: Border.all(color: Colors.white, width: 2),
                                 ),
-                                padding: const EdgeInsets.all(24),
+                                width: MediaQuery.sizeOf(context).width > ResponsiveLayoutBuilder.thresholdWidth
+                                    ? MediaQuery.sizeOf(context).width * 0.7
+                                    : MediaQuery.sizeOf(context).width,
+                                padding: const EdgeInsets.all(4),
                                 child: Column(
                                   children: [
-                                    Container(
-                                      width: MediaQuery.sizeOf(context).width > ResponsiveLayoutBuilder.thresholdWidth
-                                          ? MediaQuery.sizeOf(context).width * 0.7
-                                          : MediaQuery.sizeOf(context).width,
-                                      decoration: kIsWeb
-                                          ? BoxDecoration(
-                                              border: Border.all(color: Colors.white, width: 2),
-                                              borderRadius: BorderRadius.circular(36),
-                                            )
-                                          : null,
-                                      margin: const EdgeInsets.only(bottom: 24),
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        itemCount: viewModel.leaderboardEntries.length,
-                                        itemBuilder: (context, index) {
-                                          final entry = viewModel.leaderboardEntries.elementAtOrNull(index);
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemCount: viewModel.leaderboardEntries.length,
+                                      itemBuilder: (context, index) {
+                                        final entry = viewModel.leaderboardEntries.elementAtOrNull(index);
 
-                                          if (entry == null) return const SizedBox();
+                                        if (entry == null) return const SizedBox();
 
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(30),
-                                            ),
-                                            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                                            child: ListTile(
-                                              contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                                              leading: Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: CircleAvatar(
-                                                  backgroundColor: ColorTheme.theme.secondary,
-                                                  child: Text(
-                                                    (index + 1).toString(),
-                                                    style: GoogleFonts.shadowsIntoLight().copyWith(
-                                                      color: Colors.white,
-                                                      fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(30),
+                                          ),
+                                          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                                          child: ListTile(
+                                            contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                                            leading: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: CircleAvatar(
+                                                backgroundColor: ColorTheme.theme.secondary,
+                                                child: Text(
+                                                  (index + 1).toString(),
+                                                  style: GoogleFonts.shadowsIntoLight().copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
                                               ),
-                                              title: Text(
-                                                entry.playerName,
-                                                style: GoogleFonts.shadowsIntoLight().copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              trailing: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  switch (index) {
-                                                    0 => Image.asset(
-                                                        'assets/images/medal-first.png',
-                                                        height: 36,
-                                                        semanticLabel: '1st place medal',
-                                                      ),
-                                                    1 => Image.asset(
-                                                        'assets/images/medal-second.png',
-                                                        height: 36,
-                                                        semanticLabel: '2nd place medal',
-                                                      ),
-                                                    2 => Image.asset(
-                                                        'assets/images/medal-third.png',
-                                                        height: 36,
-                                                        semanticLabel: '3rd place medal',
-                                                      ),
-                                                    _ => const SizedBox(),
-                                                  },
-                                                  const SizedBox(width: 24),
-                                                  Text(
-                                                    '${entry.score}',
-                                                    style: GoogleFonts.shadowsIntoLight().copyWith(
-                                                      color: ColorTheme.theme.secondary.withOpacity(0.8),
-                                                      fontSize: 36,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 12),
-                                                  Image.asset(
-                                                    width: 36,
-                                                    semanticLabel: 'score icon',
-                                                    'assets/images/candy-rotated.png',
-                                                  ),
-                                                ],
+                                            ),
+                                            title: Text(
+                                              entry.playerName,
+                                              style: GoogleFonts.shadowsIntoLight().copyWith(
+                                                color: Colors.white,
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.w600,
                                               ),
                                             ),
-                                          );
-                                        },
-                                      ),
+                                            trailing: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                switch (index) {
+                                                  0 => Image.asset(
+                                                      'assets/images/medal-first.png',
+                                                      height: 36,
+                                                      semanticLabel: '1st place medal',
+                                                    ),
+                                                  1 => Image.asset(
+                                                      'assets/images/medal-second.png',
+                                                      height: 36,
+                                                      semanticLabel: '2nd place medal',
+                                                    ),
+                                                  2 => Image.asset(
+                                                      'assets/images/medal-third.png',
+                                                      height: 36,
+                                                      semanticLabel: '3rd place medal',
+                                                    ),
+                                                  _ => const SizedBox(),
+                                                },
+                                                const SizedBox(width: 24),
+                                                Text(
+                                                  '${entry.score}',
+                                                  style: GoogleFonts.shadowsIntoLight().copyWith(
+                                                    color: ColorTheme.theme.secondary.withOpacity(0.8),
+                                                    fontSize: 36,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Image.asset(
+                                                  width: 36,
+                                                  semanticLabel: 'score icon',
+                                                  'assets/images/candy-rotated.png',
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
