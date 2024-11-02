@@ -83,7 +83,7 @@ class CreditsView extends StatelessWidget {
                                         decorationColor: ColorTheme.theme.secondary,
                                       ),
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () => launchUrlString('https://www.malt.fr/profile/tanguypouriel'),
+                                    ..onTap = () => launchUrlString('https://www.tanguypouriel.dev/'),
                                 ),
                                 const TextSpan(text: 'for '),
                                 TextSpan(
